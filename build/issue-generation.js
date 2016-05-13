@@ -4,14 +4,15 @@
 
 var request = require('request');
 var async = require('async');
+var fetchIssues = require('./issue-fetching').fetch;
 var parseIssueHtml = require('./issue-parsing').parseHtml;
 
 // Given a config object for a repo, generates data for all its issues.
 exports.generate = function(configData, done) {
-	var issuesData = configData.issues;
-
-	scrapeIssues(issuesData, function(err) {
-		done(err, err ? null : issuesData);
+	fetchIssues(configData.repo, function(err, issuesData) {
+		scrapeIssues(issuesData, function(err) {
+			done(err, err ? null : issuesData);
+		});
 	});
 };
 
