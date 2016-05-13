@@ -1,10 +1,22 @@
 
-$ = require('jquery');
+var string = require('lodash/string');
+var cheerio = require('cheerio');
+
+exports.parseHtml = function(html) {
+	var $ = cheerio.load(html);
+
+	return {
+		thumbsUpCommentUsernames: queryThumbsUpCommentUsernames($),
+		plusOneCommentUsernames: queryPlusOneCommentUsernames($),
+		thumbsUpReactions: queryThumbsUpReactions($),
+		legacyStars: queryLegacyStars($)
+	};
+};
 
 function queryThumbsUpCommentUsernames($) {
 	return $('.comment-body > p:first-child > img.emoji[title=":+1:"]:first-child')
 		.map(function(i, img) {
-			return $.trim(
+			return string.trim(
 				$(img).closest('.comment').find('.timeline-comment-header .author').text()
 			);
 		})
@@ -15,11 +27,11 @@ function queryPlusOneCommentUsernames($) {
 	return $('.comment-body > p:first-child:contains("+1")')
 		.filter(function(i, p) {
 			var $p = $(p);
-			var text = $.trim($p.text());
+			var text = string.trim($p.text());
 			return text.match(/^\+1/);
 		})
 		.map(function(i, p) {
-			return $.trim($(p).closest('.comment').find('.timeline-comment-header .author').text());
+			return string.trim($(p).closest('.comment').find('.timeline-comment-header .author').text());
 		})
 		.get();
 }
@@ -27,8 +39,9 @@ function queryPlusOneCommentUsernames($) {
 function queryThumbsUpReactions($) {
 	var usernames = [];
 	var total = 0;
-	var $button = $('.js-discussion > .timeline-comment-wrapper:first .comment-reactions-options button > g-emoji[alias="+1"]')
-		.closest('button');
+	var $button = $('.js-discussion > .timeline-comment-wrapper').first()
+		.find('.comment-reactions-options button > g-emoji[alias="+1"]')
+			.closest('button');
 
 	if ($button.length) {
 		var totalText = $button.text();
@@ -47,16 +60,13 @@ function queryThumbsUpReactions($) {
 	}
 }
 
-function queryLegacyStarCount($) {
-	var bodyText = $('.js-discussion > .timeline-comment-wrapper:first .comment-body').text();
+function queryLegacyStars($) {
+	var bodyText = $('.js-discussion > .timeline-comment-wrapper').first()
+		.find('.comment-body')
+			.text();
 	var match = bodyText.match(/Imported with (\d+) star/);
 	if (match) {
 		return parseInt(match[1], 10);
 	}
 	return 0;
 }
-
-console.log('thumbs up in comments', queryThumbsUpCommentUsernames($));
-console.log('plus ones in comments', queryPlusOneCommentUsernames($));
-console.log('thumbs up reactions', queryThumbsUpReactions($));
-console.log('legacy star count', queryLegacyStarCount($));
