@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# builds the cache JSON files based on the config and outputs them to disk
+
+# go to project root
+cd "`dirname $0`/.."
+
+./node_modules/coffee-script/bin/coffee ./scripts/cache.coffee

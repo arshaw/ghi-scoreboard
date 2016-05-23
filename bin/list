@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# lists the computed dependencies of browserify
+# TODO: find a way to do this in gulp
+
+# go to project root
+cd "`dirname $0`/.."
+
+./node_modules/browserify/bin/cmd.js -t coffeeify --extension=".coffee" --list scripts/ui.coffee

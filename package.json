@@ -1,8 +1,8 @@
 {
   "name": "gh-issues-dashboard",
   "version": "0.0.0",
-  "description": "Github Issues dashboard generator",
-  "main": "build/main.js",
+  "description": "Github Issues Dashboard Generator",
+  "main": "out/js/dashboard.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,10 +17,40 @@
   "homepage": "https://github.com/arshaw/gh-issues-dashboard",
   "dependencies": {
     "async": "^1.5.2",
-    "cheerio": "^0.20.0",
-    "glob": "^7.0.3",
+    "bootstrap": "^3.3.6",
+    "browserify": "^13.0.1",
+    "browserify-shim": "^3.8.12",
+    "btoa": "^1.1.2",
+    "coffee-script": "^1.10.0",
+    "coffeeify": "^2.0.1",
+    "color": "^0.11.1",
+    "gulp": "^3.9.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-util": "^3.0.7",
+    "handlebars": "^4.0.5",
+    "hbsfy": "^2.7.0",
+    "jquery": "^2.2.3",
     "lodash": "^4.12.0",
-    "octonode": "^0.7.5",
-    "yargs": "^4.7.0"
+    "mkdirp": "^0.5.1",
+    "promise": "^7.1.1",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.7.0"
+  },
+  "browserify": {
+    "transform": [
+      "browserify-shim",
+      [
+        "hbsfy",
+        {
+          "extensions": "tpl"
+        }
+      ]
+    ]
+  },
+  "browserify-shim": {
+    "jquery": "global:jQuery",
+    "btoa": "global:btoa"
   }
 }

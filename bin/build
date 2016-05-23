@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# installs all necessary dependencies and builds the web files
+
+# always immediately exit upon error
+set -e
+
+# go to project root
+cd "`dirname $0`/.."
+
+npm install
+
+./node_modules/gulp/bin/gulp.js scripts

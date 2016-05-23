@@ -1,0 +1,25 @@
+
+body {
+	margin: 1em;
+}
+
+.issue-table tbody tr {
+	cursor: pointer;
+}
+
+.issue-value {
+	width: 4%;
+	white-space: nowrap;
+}
+
+.issue-number {
+	width: 8%;
+}
+
+td.issue-value:not(.issue-sorted) {
+	color: #aaa;
+}
+
+.issue-sorted {
+	font-weight: bold;
+}
