@@ -2,7 +2,6 @@
 Github API utilities to be used by Node on the BACKEND ONLY.
 ###
 
-btoa = require('btoa')
 request = require('request')
 _ = require('lodash')
 Promise = require('promise')
@@ -50,12 +49,11 @@ fetchItems = (url, params, callback) ->
 	console.log('fetching', url)
 	request {
 		url: url
-		headers: _.assign({}, ghUtil.getHeaders(), {
-			'User-Agent': 'gh-issues-dashboard'
-			'Authorization': 'Basic ' + btoa(
-				authConfig.username + ':' + authConfig.accessToken
-			)
-		})
+		headers: _.assign(
+			{},
+			ghUtil.getHeaders(authConfig.username, authConfig.accessToken),
+			{ 'User-Agent': 'gh-issues-dashboard' } # API requires a useragent
+		)
 		qs: params || {}
 		json: true
 	}, (err, response, issues) ->

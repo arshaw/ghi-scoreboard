@@ -1,6 +1,7 @@
 
 $ = require('jquery')
 _ = require('lodash')
+Cookie = require('js-cookie')
 RowCollection = require('../collections/RowCollection')
 
 # TODO: also requires Bootstrap JS
@@ -8,6 +9,7 @@ RowCollection = require('../collections/RowCollection')
 tabsTpl = require('../../templates/tabs.tpl')
 labelGroupTpl = require('../../templates/label-group.tpl')
 tableTpl = require('../../templates/table.tpl')
+rateLimitTpl = require('../../templates/rate-limit.tpl')
 
 ###
 Responsible for rendering the tabs/groups/tables if issues in a repo
@@ -35,6 +37,7 @@ class RepoView
 			@repoModel.getIssues()
 			@repoModel.getDiscussions()
 		).then (labelCollection, issueCollection, discussionCollection) =>
+
 			@labelCollection = labelCollection
 
 			rowCollection = new RowCollection(@repoModel.repoConfig)
@@ -45,12 +48,31 @@ class RepoView
 			@$el.find('[data-toggle="tooltip"]').tooltip()
 
 		.fail (err) =>
-			@$el.text(
-				if err and err.message
-					'ERROR: ' + err.message
-				else
-					'ERROR (see console)'
-			)
+
+			if err?.statusText
+				@$el.html(rateLimitTpl({ error: err.statusText }))
+				@initAuthForm()
+
+			else if err?.message
+				@$el.text('ERROR: ' + err.message)
+
+			else
+				@$el.text('ERROR (see console)')
+
+	###
+	Initialize event handling for access-token submission form
+	###
+	initAuthForm: ->
+		$form = @$el.find('#auth-form').on 'submit', ->
+			username = $form.find('input[name="auth-username"]').val()
+			accessToken = $form.find('input[name="auth-access-token"]').val()
+
+			# record cookies for a year
+			Cookie.set('github-username', username, { expires: 365 })
+			Cookie.set('github-access-token', accessToken, { expires: 365 })
+
+			window.location.reload()
+			false # prevent submission
 
 	###
 	Clears the contents of the element and unbinds handlers.

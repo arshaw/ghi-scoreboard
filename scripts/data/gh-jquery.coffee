@@ -3,6 +3,7 @@ Github API utilities to be used on the FRONTEND ONLY. Leverages jQuery.ajax.
 ###
 
 $ = require('jquery')
+Cookie = require('js-cookie')
 ghUtil = require('./gh-util')
 
 ###
@@ -14,7 +15,7 @@ exports.fetchLabels = (repoUser, repoName) ->
 		if !err
 			deferred.resolve(labels)
 		else
-			deferred.reject()
+			deferred.reject(err)
 	deferred.promise()
 
 ###
@@ -26,7 +27,7 @@ exports.fetchIssues = (repoUser, repoName) ->
 		if !err
 			deferred.resolve(issues)
 		else
-			deferred.reject()
+			deferred.reject(err)
 	deferred.promise()
 
 ###
@@ -34,12 +35,14 @@ The `fetchFunc` for the transport layer. See gh-util for more info.
 ###
 fetchItems = (url, params, callback) ->
 	console.log('fetching', url)
+	username = Cookie.get('github-username')
+	accessToken = Cookie.get('github-access-token')
 	$.ajax
 		url: url
 		type: 'GET'
-		headers: ghUtil.getHeaders()
+		headers: ghUtil.getHeaders(username, accessToken)
 		data: params || {}
 	.done (issues, textStatus, xhr) ->
 		callback(null, issues, xhr.getResponseHeader('link'))
-	.fail (xhr, textStatus, errorThrown) ->
-		callback(errorThrown || xhr, [], null)
+	.fail (xhr) ->
+		callback(xhr, [], null)
