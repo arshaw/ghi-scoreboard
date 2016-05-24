@@ -20,26 +20,32 @@
 
 			<ul class="nav navbar-nav">
 				<li>
-					<a href="{{repo.url}}" target="_blank">
-						{{user.name}} / {{repo.name}}
+					<a href="{{currentRepo.url}}" target="_blank">
+						{{currentRepo.user.name}} / {{currentRepo.name}}
 					</a>
 				</li>
-				<!--
-				<li class="dropdown">
-					<a class="dropdown-toggle"
-						data-toggle="dropdown"
-						role="button"
-						aria-haspopup="true"
-						aria-expanded="false"
-						>
-						<span class="hidden-md hidden-lg">change repo</span>
-						<span class="caret"></span>
-					</a>
-					<ul class="dropdown-menu dropdown-menu-right">
-						<li><a href="https://github.com/fullcalendar/fullcalendar-scheduler">fullcalendar / fullcalendar-scheduler</a></li>
-					</ul>
-				</li>
-				-->
+				{{#if otherRepos}}
+					<li class="dropdown">
+						<a class="dropdown-toggle"
+							data-toggle="dropdown"
+							role="button"
+							aria-haspopup="true"
+							aria-expanded="false"
+							>
+							<span class="hidden-md hidden-lg">switch repo</span>
+							<span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu dropdown-menu-right">
+							{{#otherRepos}}
+								<li>
+									<a href="#{{name}}">
+										{{user.name}} / {{name}}
+									</a>
+								</li>
+							{{/otherRepos}}
+						</ul>
+					</li>
+				{{/if}}
 			</ul>
 
 			<p class="navbar-text navbar-right" style="margin-right:0">

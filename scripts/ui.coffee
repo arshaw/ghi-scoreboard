@@ -1,10 +1,12 @@
 # entrypoint for the frontend
 
 $ = require('jquery')
-DashboardController = require('./controllers/DashboardController')
+DashboardModel = require('./models/DashboardModel')
+DashboardView = require('./views/DashboardView')
 rawConfig = require('../conf/conf')
 
-dashboardController = new DashboardController(rawConfig)
+dashboardModel = new DashboardModel(rawConfig)
+dashboardView = new DashboardView(dashboardModel)
 
 $ -> # DOM ready
-	dashboardController.start()
+	dashboardView.render()
