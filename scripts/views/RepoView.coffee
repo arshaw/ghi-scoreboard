@@ -44,8 +44,7 @@ class RepoView
 			rowCollection.processCollections(issueCollection, discussionCollection)
 
 			@$el.html(@renderHtml(rowCollection))
-
-			@$el.find('[data-toggle="tooltip"]').tooltip()
+			@initHandlers()
 
 		.fail (err) =>
 
@@ -73,6 +72,22 @@ class RepoView
 
 			window.location.reload()
 			false # prevent submission
+
+	###
+	Attaches DOM event handlers for user interaction
+	###
+	initHandlers: ->
+		@$el.find('[data-toggle="tooltip"]').tooltip() # bootstrap
+
+		# when clicking on an issue row, go to the issue's URL
+		@$el.on 'click', '.issue-table tbody tr', (ev) ->
+			$target = $(ev.target)
+			if not $target.closest('a').length # not clicked within <a>
+				$tr = $target.closest('tr')
+				url = $tr.find('a[href]').attr('href')
+				if url
+					window.open(url)
+			return
 
 	###
 	Clears the contents of the element and unbinds handlers.
