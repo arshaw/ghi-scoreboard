@@ -14,7 +14,7 @@ gulp.task('default', [ 'build' ])
 
 gulp.task('build', [ 'buildScripts', 'copy' ])
 
-gulp.task('watch', [ 'watchScripts' ])
+gulp.task('watch', [ 'build', 'watchScripts', 'watchCss' ])
 
 
 # Static Files
@@ -28,13 +28,6 @@ gulp.task 'copyJs', ->
 		])
 		.pipe gulp.dest('./out/js/')
 
-gulp.task 'copyCss', ->
-	gulp.src([
-		'./node_modules/bootstrap/dist/css/bootstrap.css'
-		'./styles/dashboard.css'
-		])
-		.pipe gulp.dest('./out/css/')
-
 gulp.task 'copyFonts', ->
 	gulp.src('./node_modules/bootstrap/dist/fonts/*')
 		.pipe gulp.dest('./out/fonts/')
@@ -43,6 +36,19 @@ gulp.task 'copyHtml', ->
 	gulp.src('./templates/index.tpl')
 		.pipe rename('index.html')
 		.pipe gulp.dest('./out/')
+
+
+# Styles
+
+gulp.task 'copyCss', ->
+	gulp.src([
+		'./node_modules/bootstrap/dist/css/bootstrap.css'
+		'./styles/dashboard.css'
+		])
+		.pipe gulp.dest('./out/css/')
+
+gulp.task 'watchCss', ->
+	gulp.watch('./styles/dashboard.css', ['copyCss'])
 
 
 # Scripts
