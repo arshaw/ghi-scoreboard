@@ -9,10 +9,6 @@ It must call `callback` with (err, itemArray, nextHeader).
 See gh-node or gh-jquery's `fetchItems` for example.
 ###
 
-btoa = require('btoa')
-
-masterConfig = require('../../conf/conf')
-
 WAIT = 100 # time to wait in between fetching pages of items (labels/issues/comments)
 MAX_PER_PAGE = 100 # max number of items per-page that Github API will allow
 
@@ -93,15 +89,8 @@ parseNextUrl = (linkHeader='') ->
 Generates HTTP headers that should be sent out with every request to Github's API
 ###
 exports.getHeaders = ->
-	headers = {
+	{
 		# experimental feature to get reactions:
 		# https://developer.github.com/v3/issues/#reactions-summary-1
 		Accept: 'application/vnd.github.squirrel-girl-preview'
 	}
-
-	if masterConfig.auth
-		headers.Authorization = 'Basic ' + btoa(
-			masterConfig.auth.username + ':' + masterConfig.auth.accessToken
-		)
-
-	headers

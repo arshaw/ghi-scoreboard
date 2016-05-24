@@ -2,10 +2,13 @@
 Github API utilities to be used by Node on the BACKEND ONLY.
 ###
 
+btoa = require('btoa')
 request = require('request')
 _ = require('lodash')
 Promise = require('promise')
 ghUtil = require('./gh-util')
+
+authConfig = require('../../conf/auth')
 
 ###
 Fetches all labels for a repo. Returns a proper A+ Promise.
@@ -47,11 +50,12 @@ fetchItems = (url, params, callback) ->
 	console.log('fetching', url)
 	request {
 		url: url
-		headers: _.assign(
-			{},
-			ghUtil.getHeaders(),
-			{ 'User-Agent': 'gh-issues-dashboard' }
-		)
+		headers: _.assign({}, ghUtil.getHeaders(), {
+			'User-Agent': 'gh-issues-dashboard'
+			'Authorization': 'Basic ' + btoa(
+				authConfig.username + ':' + authConfig.accessToken
+			)
+		})
 		qs: params || {}
 		json: true
 	}, (err, response, issues) ->
