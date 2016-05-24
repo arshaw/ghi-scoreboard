@@ -55,9 +55,11 @@
 				{{/if}}
 			</ul>
 
-			<p class="navbar-text navbar-right" style="margin-right:0">
+			<p class="navbar-text navbar-right">
 				Created with
-				<a href="https://github.com/arshaw/ghi-dashboard" class="navbar-link">ghi-dashboard</a>
+				<a href="https://github.com/arshaw/ghi-dashboard" target="_blank" class="navbar-link">
+					ghi-dashboard
+				</a>
 			</p>
 
 		</div>

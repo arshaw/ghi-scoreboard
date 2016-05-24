@@ -1,4 +1,12 @@
 
+.navbar-right {
+	margin-right: 0; /* hack for .navbar-static-top */
+}
+
+.navbar-right a {
+	text-decoration: underline; /* attribution link */
+}
+
 #stats {
 	margin: 1em;
 }
