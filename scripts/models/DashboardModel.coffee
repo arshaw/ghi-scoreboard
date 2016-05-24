@@ -11,7 +11,8 @@ class DashboardModel
 	currentRepoModel: null
 
 	###
-	Given a raw master config object
+	Given a raw master config object.
+	Will default to the first repo.
 	###
 	constructor: (masterConfig) ->
 		repoConfigs = RepoConfig.parseConfigs(masterConfig)

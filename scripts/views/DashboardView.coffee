@@ -10,6 +10,7 @@ about a repo's issues to RepoView.
 class DashboardView
 
 	dashboardModel: null
+	isRendered: false
 	headerView: null
 	repoView: null
 
@@ -18,6 +19,14 @@ class DashboardView
 	###
 	constructor: (@dashboardModel) ->
 		@headerView = new HeaderView(@dashboardModel)
+
+	###
+	Renders everything, unrendering previous stuff, safe to be called repeatedly.
+	###
+	rerender: ->
+		if @isRendered
+			@destroy()
+		@render()
 
 	###
 	Renders everything into hardcoded elements on the page
@@ -29,6 +38,8 @@ class DashboardView
 		@repoView = new RepoView(@dashboardModel.currentRepoModel)
 		@repoView.$el = $('#stats')
 		@repoView.render()
+
+		@isRendered = true
 
 	###
 	Clears all rendering and unbinds handlers

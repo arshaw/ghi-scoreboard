@@ -29,6 +29,7 @@
     "gulp-sourcemaps": "^1.6.0",
     "gulp-util": "^3.0.7",
     "handlebars": "^4.0.5",
+    "hash-router": "^0.4.0",
     "hbsfy": "^2.7.0",
     "jquery": "^2.2.3",
     "lodash": "^4.12.0",
