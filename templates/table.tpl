@@ -2,7 +2,10 @@
 <table class="table table-hover table-condensed issue-table">
 	<thead>
 		<tr>
-			<th colspan="2">Issue</th>
+			<th colspan="2">
+				Issues
+				<span class="badge">{{count}}</span>
+			</th>
 			{{#columns}}
 				<th class="issue-value{{#isSorted}} issue-sorted{{/isSorted}}">
 					{{#icon}}

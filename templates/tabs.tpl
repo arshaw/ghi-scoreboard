@@ -4,6 +4,7 @@
 		<li role="presentation" {{#isActive}}class="active"{{/isActive}}>
 			<a href="#{{name}}" aria-controls="{{name}}" role="tab" data-toggle="tab">
 				{{title}}
+				<span class="badge">{{count}}</span>
 			</a>
 		</li>
 	{{/tabs}}

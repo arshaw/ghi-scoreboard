@@ -84,11 +84,12 @@ class RepoView
 	Main entry point for rendering
 	###
 	renderHtml: (rowCollection) ->
-		@renderUi(@repoModel.repoConfig.ui, rowCollection)
+		res = @renderUi(@repoModel.repoConfig.ui, rowCollection)
+		res.html
 
 	###
-	Renders HTML for a component of the dashboard,
-	defined by the `ui` config object.
+	Renders HTML for a component of the dashboard, defined by the `ui` config object.
+	Returns { html, issueCnt }
 	###
 	renderUi: (ui, rowCollection) ->
 		if ui.tabs
@@ -99,56 +100,74 @@ class RepoView
 			@renderTable(rowCollection.query())
 
 	###
-	Renders HTML for a tab component,
-	based on an array of tab configuration objects.
+	Renders HTML for a tab component, based on an array of tab configuration objects.
+	Returns { html, issueCnt }
 	###
 	renderTabs: (tabs, rowCollection) ->
-		tabsTpl
-			tabs:
-				for tab, i in tabs
-					{
-						name: tab.title.toLowerCase()
-						title: tab.title
-						isActive: not i # is the first?
-						# render inner-components ...
-						content: @renderUi(tab, rowCollection)
-					}
+		issueCnt = 0
+		tabsForTpl = 
+			for tab, i in tabs
+				inner = @renderUi(tab, rowCollection)
+				issueCnt += inner.issueCnt
+				{
+					name: tab.title.toLowerCase()
+					title: tab.title
+					isActive: not i # is the first?
+					count: inner.issueCnt
+					content: inner.html
+				}
+		html = tabsTpl({ tabs: tabsForTpl })
+		{ html, issueCnt }
 
 	###
 	Renders a list of issue tables, grouped by label.
 	`labelGroups` is an array of one of the following:
 		'groupname'
 		[ 'groupname1', 'groupname2'] --- is an AND condition
+	Returns { html, issueCnt }
 	###
 	renderLabelGroups: (labelGroups, rowCollection) ->
+		issueCnt = 0
 		html = ''
 		for labelNames in labelGroups
 			if typeof labelNames == 'string'
 				labelNames = [ labelNames ]
-			html += @renderLabelGroup(labelNames, rowCollection)
-		html
+			inner = @renderLabelGroup(labelNames, rowCollection)
+			html += inner.html
+			issueCnt += inner.issueCnt
+		{ html, issueCnt }
 
 	###
 	Renders a table for issues that match ALL of the given labels,
 	complete with a header displaying the labels.
+	Returns { html, issueCnt }
 	###
 	renderLabelGroup: (labelNames, rowCollection) ->
 		labels = # get objects
 			for labelName in labelNames
 				@labelCollection.getByName(labelName)
 		sortedRows = rowCollection.query(labelNames)
-		labelGroupTpl
+		inner = @renderTable(sortedRows, labelNames)
+		html = labelGroupTpl({
 			labels: labels
-			content: @renderTable(sortedRows, labelNames)
+			count: inner.issueCnt
+			content: inner.html
+		})
+		{ html, issueCnt: inner.issueCnt }
 
 	###
 	Renders a sorted table of issue rows.
 	Accepts an ARRAY OF ROWS (not a collection).
+	Returns { html, issueCnt }
 	###
 	renderTable: (rows, hiddenLabelNames=[]) ->
-		tableTpl
+		rowsForTpl = @getRowsForTable(rows, hiddenLabelNames)
+		html = tableTpl({
 			columns: @repoModel.repoConfig.columns
-			rows: @getRowsForTable(rows, hiddenLabelNames)
+			count: rowsForTpl.length
+			rows: rowsForTpl
+		})
+		{ html, issueCnt: rowsForTpl.length }
 
 	###
 	Gets an array of row objects used for HTML template rendering.
