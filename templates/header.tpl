@@ -19,11 +19,6 @@
 		<div class="collapse navbar-collapse" id="navbar-collapse-1">
 
 			<ul class="nav navbar-nav">
-				<li>
-					<a href="{{currentRepo.url}}" target="_blank">
-						{{currentRepo.user.name}} / {{currentRepo.name}}
-					</a>
-				</li>
 				{{#if otherRepos}}
 					<li class="dropdown">
 						<a class="dropdown-toggle"
@@ -32,10 +27,10 @@
 							aria-haspopup="true"
 							aria-expanded="false"
 							>
-							<span class="hidden-md hidden-lg">switch repo</span>
+							{{currentRepo.user.name}} / {{currentRepo.name}}
 							<span class="caret"></span>
 						</a>
-						<ul class="dropdown-menu dropdown-menu-right">
+						<ul class="dropdown-menu">
 							{{#otherRepos}}
 								<li>
 									<a href="#{{name}}">
@@ -44,6 +39,18 @@
 								</li>
 							{{/otherRepos}}
 						</ul>
+					</li>
+					<li>
+						<a href="{{currentRepo.url}}" target="_blank">
+							<span class="glyphicon glyphicon-share-alt"></span>
+						</a>
+					</li>
+				{{else}}
+					<li>
+						<a href="{{currentRepo.url}}" target="_blank">
+							{{currentRepo.user.name}} / {{currentRepo.name}}
+							<span class="glyphicon glyphicon-share-alt"></span>
+						</a>
 					</li>
 				{{/if}}
 			</ul>

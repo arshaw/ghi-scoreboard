@@ -12,6 +12,8 @@ dashboardView = new DashboardView(dashboardModel)
 $ -> # DOM ready
 	router = HashRouter()
 
+	# TODO: handle routes that don't exist. catch-all
+
 	# default route (renders the first repo)
 	router.addRoute '#', -> # OR when no hash
 		dashboardView.rerender()
