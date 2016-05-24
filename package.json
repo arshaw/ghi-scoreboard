@@ -1,5 +1,5 @@
 {
-  "name": "gh-issues-dashboard",
+  "name": "ghi-dashboard",
   "version": "0.0.0",
   "description": "Github Issues Dashboard Generator",
   "main": "out/js/dashboard.js",
@@ -8,13 +8,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/arshaw/gh-issues-dashboard.git"
+    "url": "git+https://github.com/arshaw/ghi-dashboard.git"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/arshaw/gh-issues-dashboard/issues"
+    "url": "https://github.com/arshaw/ghi-dashboard/issues"
   },
-  "homepage": "https://github.com/arshaw/gh-issues-dashboard",
+  "homepage": "https://github.com/arshaw/ghi-dashboard",
   "dependencies": {
     "async": "^1.5.2",
     "bootstrap": "^3.3.6",

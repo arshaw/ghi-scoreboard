@@ -57,7 +57,7 @@
 
 			<p class="navbar-text navbar-right" style="margin-right:0">
 				Created with
-				<a href="#" class="navbar-link">ghi-dashboard</a>
+				<a href="https://github.com/arshaw/ghi-dashboard" class="navbar-link">ghi-dashboard</a>
 			</p>
 
 		</div>

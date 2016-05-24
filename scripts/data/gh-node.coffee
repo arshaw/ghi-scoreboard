@@ -52,7 +52,7 @@ fetchItems = (url, params, callback) ->
 		headers: _.assign(
 			{},
 			ghUtil.getHeaders(authConfig.username, authConfig.accessToken),
-			{ 'User-Agent': 'gh-issues-dashboard' } # API requires a useragent
+			{ 'User-Agent': 'ghi-dashboard' } # API requires a useragent
 		)
 		qs: params || {}
 		json: true
