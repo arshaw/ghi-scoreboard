@@ -30,6 +30,11 @@ class RepoView
 	Will renderer in asynchronous steps, as data loads.
 	###
 	render: ->
+
+		# dynamically adjust title of page
+		repoConfig = @repoModel.repoConfig
+		document.title = repoConfig.name + ' · Issue Dashboard'
+
 		@$el.text('Loading...')
 
 		$.when(
