@@ -4,7 +4,7 @@ in this same directory.
 */
 module.exports = {
 
-	cacheIssues: true,
+	cacheIssues: false,
 	cacheDiscussions: true,
 
 	displayValue: function(val) {
