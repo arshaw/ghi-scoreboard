@@ -48,8 +48,8 @@ class DiscussionCollection
 	computeUniquePluses: (ghComments) ->
 		usernameHash = {}
 		for ghComment in ghComments
-			# "+1" (text) or ":+1:" (thumbsup emoji)
-			if /^\s*(\+1|\:\+1\:)/.test(ghComment.body)
+			# "+1" (text, at beginning) or ":+1:" (thumbsup emoji, anywhere)
+			if /(^\s*\+1|\:\+1\:)/.test(ghComment.body)
 				usernameHash[ghComment.user.login] = true
 		_.keys(usernameHash).length
 
