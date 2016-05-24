@@ -99,6 +99,7 @@ class RepoView
 	###
 	destroy: ->
 		@$el.empty()
+		@$el.off() # remove all handlers. TODO: more precise
 
 	###
 	Main entry point for rendering
