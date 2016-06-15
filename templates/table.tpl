@@ -23,7 +23,7 @@
 	</thead>
 	<tbody>
 		{{#rows}}
-			<tr>
+			<tr data-url="{{url}}" title="#{{number}}">
 				{{#cells}}
 					<td class="issue-value{{#isSorted}} issue-sorted{{/isSorted}}">
 						{{value}}

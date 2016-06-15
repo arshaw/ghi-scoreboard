@@ -90,7 +90,7 @@ class RepoView
 			$target = $(ev.target)
 			if not $target.closest('a').length # not clicked within <a>
 				$tr = $target.closest('tr')
-				url = $tr.find('a[href]').attr('href')
+				url = $tr.data('url')
 				if url
 					window.open(url)
 			return
