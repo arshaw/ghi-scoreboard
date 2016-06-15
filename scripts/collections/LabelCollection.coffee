@@ -41,7 +41,13 @@ class LabelCollection
 	###
 	computeUrl: (ghLabel) ->
 		'https://github.com/' + @repoConfig.user.name + '/' + @repoConfig.name + '/issues?q=' +
-			encodeURIComponent('is:open is:issue label:' + ghLabel.name)
+			encodeURIComponent(
+				'is:open is:issue label:' +
+				if ghLabel.name.match(/\s/) # any whitespace?
+					'"' + ghLabel.name + '"'
+				else
+					ghLabel.name
+			)
 
 	###
 	Given a CSS string background color, compute a contrasting CSS color
