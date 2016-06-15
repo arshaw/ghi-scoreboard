@@ -7,6 +7,7 @@ Controlls the repos within a dashboard app
 ###
 class DashboardModel
 
+	masterConfig: null
 	repoModels: null
 	currentRepoModel: null
 
@@ -14,8 +15,8 @@ class DashboardModel
 	Given a raw master config object.
 	Will default to the first repo.
 	###
-	constructor: (masterConfig) ->
-		repoConfigs = RepoConfig.parseConfigs(masterConfig)
+	constructor: (@masterConfig) ->
+		repoConfigs = RepoConfig.parseConfigs(@masterConfig)
 		@repoModels =
 			for repoConfig in repoConfigs
 				new RepoModel(repoConfig)

@@ -1,4 +1,5 @@
 
+_ = require('lodash')
 headerTpl = require('../../templates/header.tpl')
 
 ###
@@ -31,14 +32,13 @@ class HeaderView
 	Generates HTML content.
 	###
 	renderHtml: ->
-		currentRepoModel = @dashboardModel.currentRepoModel
 		headerTpl
-			currentRepo: currentRepoModel.repoConfig
-			otherRepos: (
-				otherModel.repoConfig \
-				for otherModel in @dashboardModel.repoModels \
-				when otherModel != currentRepoModel
-			)
+			logo: @dashboardModel.masterConfig.logo
+			repos:
+				for repoModel in @dashboardModel.repoModels
+					_.assign({}, repoModel.repoConfig, {
+						isActive: repoModel == @dashboardModel.currentRepoModel
+					})
 
 # expose
 module.exports = HeaderView
