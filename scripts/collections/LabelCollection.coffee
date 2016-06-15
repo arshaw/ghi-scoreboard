@@ -54,10 +54,10 @@ class LabelCollection
 	###
 	computeTextColor: (bgColor) ->
 		color = new Color(bgColor)
-		if color.dark()
-			'#fff'
+		if color.luminosity() < 0.45 # dark background? (what gh seems to use)
+			'#fff' # light text
 		else
-			'#000'
+			'#000' # dark text
 
 	###
 	For serialization
