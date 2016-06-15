@@ -1,11 +1,7 @@
 
-<table class="table table-hover table-condensed issue-table">
+<table class="table table-hover table-condensed issue-table" style="margin-top:1em">
 	<thead>
 		<tr>
-			<th colspan="2">
-				Issues
-				<span class="badge">{{count}}</span>
-			</th>
 			{{#columns}}
 				<th class="issue-value{{#isSorted}} issue-sorted{{/isSorted}}">
 					{{#icon}}
@@ -21,27 +17,28 @@
 					{{title}}
 				</th>
 			{{/columns}}
+			<th colspan="2">
+			</th>
 		</tr>
 	</thead>
 	<tbody>
 		{{#rows}}
 			<tr>
-				<td class='issue-number'>
-					<a href="{{url}}" target="_blank">#{{number}}</a>
-				</td>
-				<td>
-					{{title}}
-					{{#labels}}
-						<a href="{{url}}" target="_blank" class="label"
-							style="background-color:{{bgColor}};color:{{textColor}}"
-						>{{name}}</a>
-					{{/labels}}
-				</td>
 				{{#cells}}
 					<td class="issue-value{{#isSorted}} issue-sorted{{/isSorted}}">
 						{{value}}
 					</td>
 				{{/cells}}
+				<td>
+					{{title}}
+					<span style="white-space:nowrap">
+						{{#labels}}
+							<a href="{{url}}" target="_blank" class="label"
+								style="background-color:{{bgColor}};color:{{textColor}}"
+							>{{name}}</a>
+						{{/labels}}
+					</span>
+				</td>
 			</tr>
 		{{/rows}}
 	</tbody>

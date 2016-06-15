@@ -7,7 +7,8 @@ RowCollection = require('../collections/RowCollection')
 # TODO: also requires Bootstrap JS
 
 tabsTpl = require('../../templates/tabs.tpl')
-labelGroupTpl = require('../../templates/label-group.tpl')
+splitpaneTpl = require('../../templates/splitpane.tpl')
+labelTableTpl = require('../../templates/label-table.tpl')
 tableTpl = require('../../templates/table.tpl')
 rateLimitTpl = require('../../templates/rate-limit.tpl')
 
@@ -105,7 +106,7 @@ class RepoView
 	Main entry point for rendering
 	###
 	renderHtml: (rowCollection) ->
-		res = @renderUi(@repoModel.repoConfig.ui, rowCollection)
+		res = @renderUi(@repoModel.repoConfig.raw, rowCollection)
 		res.html
 
 	###
@@ -113,10 +114,18 @@ class RepoView
 	Returns { html, issueCnt }
 	###
 	renderUi: (ui, rowCollection) ->
-		if ui.tabs
+		if ui.tabs # always an array
 			@renderTabs(ui.tabs, rowCollection)
-		else if ui.labels
-			@renderLabelGroups(ui.labels, rowCollection)
+
+		else if ui.splitpane # always an array
+			@renderSplitpane(ui.splitpane, rowCollection)
+
+		else if ui.layout # always an array. just a single column of content
+			@renderLayout(ui.layout, rowCollection)
+
+		else if ui.label # always an object
+			@renderLabelTable(ui.label, rowCollection)
+
 		else
 			@renderTable(rowCollection.query())
 
@@ -141,21 +150,28 @@ class RepoView
 		{ html, issueCnt }
 
 	###
-	Renders a list of issue tables, grouped by label.
-	`labelGroups` is an array of one of the following:
-		'groupname'
-		[ 'groupname1', 'groupname2'] --- is an AND condition
-	Returns { html, issueCnt }
 	###
-	renderLabelGroups: (labelGroups, rowCollection) ->
+	renderSplitpane: (panes, rowCollection) ->
+		issueCnt = 0
+		panesForTpl =
+			for pane in panes
+				inner = @renderUi(pane, rowCollection)
+				issueCnt += inner.issueCnt
+				{
+					content: inner.html
+				}
+		html = splitpaneTpl({ panes: panesForTpl })
+		{ html, issueCnt }
+
+	###
+	###
+	renderLayout: (layoutItems, rowCollection) ->
 		issueCnt = 0
 		html = ''
-		for labelNames in labelGroups
-			if typeof labelNames == 'string'
-				labelNames = [ labelNames ]
-			inner = @renderLabelGroup(labelNames, rowCollection)
-			html += inner.html
+		for layoutItem in layoutItems
+			inner = @renderUi(layoutItem, rowCollection)
 			issueCnt += inner.issueCnt
+			html += inner.html
 		{ html, issueCnt }
 
 	###
@@ -163,16 +179,14 @@ class RepoView
 	complete with a header displaying the labels.
 	Returns { html, issueCnt }
 	###
-	renderLabelGroup: (labelNames, rowCollection) ->
-		labels = # get objects
-			for labelName in labelNames
-				@labelCollection.getByName(labelName)
-		sortedRows = rowCollection.query(labelNames)
-		inner = @renderTable(sortedRows, labelNames)
-		html = labelGroupTpl({
-			labels: labels
+	renderLabelTable: (labelName, rowCollection) ->
+		label = @labelCollection.getByName(labelName)
+		sortedRows = rowCollection.query(labelName)
+		inner = @renderTable(sortedRows, labelName)
+		html = labelTableTpl({
+			label: label
 			count: inner.issueCnt
-			content: inner.html
+			tableHtml: inner.html
 		})
 		{ html, issueCnt: inner.issueCnt }
 
@@ -194,6 +208,9 @@ class RepoView
 	Gets an array of row objects used for HTML template rendering.
 	###
 	getRowsForTable: (rows, hiddenLabelNames) ->
+
+		if typeof hiddenLabelNames == 'string'
+			hiddenLabelNames = [ hiddenLabelNames ]
 
 		# TODO: use lodash somehow
 		hiddenLabelHash = {}

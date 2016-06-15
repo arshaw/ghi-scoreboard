@@ -25,10 +25,11 @@ Normalizes and stores information from the config, for a single repo.
 ###
 class RepoConfig
 
+	raw: null # merged configs
+
 	user: null # { name, url }
 	name: null # repo's name
 	url: null
-	ui: null # config object for rendering the dashboard UI
 	columns: null
 	sortBy: null
 
@@ -42,6 +43,7 @@ class RepoConfig
 	displayValue: null
 
 	constructor: (input, fallback={}) ->
+		@raw = _.assign({}, input, fallback)
 
 		if typeof input == 'string'
 			parts = input.split('/')
@@ -59,14 +61,14 @@ class RepoConfig
 			else
 				fallback
 		@columns = normalizeColumns(input.columns or fallback.columns)
-		@sortBy = input.sortBy or fallback.sortBy or @columns[@columns.length - 1].name
+		@sortBy = @raw.sortBy or @columns[@columns.length - 1].name
 
-		@cacheIssues = input.cacheIssues ? fallback.cacheIssues ? false
-		@cacheDiscussions = input.cacheDiscussions ? fallback.cacheDiscussions ? false
+		@cacheIssues = @raw.cacheIssues ? false
+		@cacheDiscussions = @raw.cacheDiscussions ? false
 
-		@parseIssue = input.parseIssue or fallback.parseIssue or null
-		@parseDiscussion = input.parseDiscussion or fallback.parseDiscussion or null
-		@displayValue = input.displayValue or fallback.displayValue or null
+		@parseIssue = @raw.parseIssue or null
+		@parseDiscussion = @raw.parseDiscussion or null
+		@displayValue = @raw.displayValue or null
 
 
 # Column Normalization

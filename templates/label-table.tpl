@@ -1,10 +1,13 @@
 
 <h2>
-	{{#labels}}
+	{{#label}}
 		<a href="{{url}}" target="_blank" class="label"
 			style="background-color:{{bgColor}};color:{{textColor}}"
-		>{{name}}</a>
-	{{/labels}}
+			>
+			{{name}}
+			<span class="badge">{{../count}}</span>
+		</a>
+	{{/label}}
 </h2>
 
-{{{content}}}
+{{{tableHtml}}}
