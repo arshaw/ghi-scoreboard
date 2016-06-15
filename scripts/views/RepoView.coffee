@@ -158,6 +158,7 @@ class RepoView
 				inner = @renderUi(pane, rowCollection)
 				issueCnt += inner.issueCnt
 				{
+					width: pane.width
 					content: inner.html
 				}
 		html = splitpaneTpl({ panes: panesForTpl })
