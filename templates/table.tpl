@@ -1,5 +1,5 @@
 
-<table class="table table-hover table-condensed issue-table" style="margin-top:1em">
+<table class="table table-hover table-condensed issue-table">
 	<thead>
 		<tr>
 			{{#columns}}
@@ -31,7 +31,7 @@
 				{{/cells}}
 				<td>
 					{{title}}
-					<span style="white-space:nowrap">
+					<span class="issue-labels">
 						{{#labels}}
 							<a href="{{url}}" target="_blank" class="label"
 								style="background-color:{{bgColor}};color:{{textColor}}"

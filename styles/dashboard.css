@@ -3,12 +3,12 @@
 	margin-right: 0; /* hack for .navbar-static-top */
 }
 
-.navbar-right a {
+.navbar-link {
 	text-decoration: underline; /* attribution link */
 }
 
 #stats {
-	margin: 1em;
+	margin: 1em 15px; /* 15 is what the grid gutter is */
 }
 
 .issue-table tbody tr {
@@ -20,8 +20,8 @@
 	white-space: nowrap;
 }
 
-.issue-number {
-	width: 8%;
+.issue-labels {
+	white-space: nowrap;
 }
 
 td.issue-value:not(.issue-sorted) {
