@@ -38,15 +38,15 @@ module.exports = {
 			},
 
 			columns: [
-				/*'comments',
-				{
-					name: 'stars',
-					icon: 'star',
-					caption: 'stars from google code',
-					prop: 'legacyStars'
-				},
-				'commentPluses',
-				'pluses',*/
+				//'comments',
+				//{
+				//	name: 'stars',
+				//	icon: 'star',
+				//	caption: 'stars from google code',
+				//	prop: 'legacyStars'
+				//},
+				//'commentPluses',
+				//'pluses',
 				{
 					name: 'score',
 					title: 'Score',
@@ -54,8 +54,10 @@ module.exports = {
 					caption: 'computed score',
 					value: function(issue) {
 						return issue.legacyStars * 0.75 +
-							(issue.commentPluses || 0) * 0.75 + // commentPluses might be scraped
-							issue.pluses;
+							Math.max(
+								issue.legacyStars * 0.25,
+								issue.score
+							);
 					}
 				}
 			]
@@ -65,19 +67,17 @@ module.exports = {
 			name: 'fullcalendar-scheduler',
 
 			columns: [
-				/*'comments',
-				'participants',
-				'commentPluses',
-				'pluses',*/
+				//'comments',
+				//'participants',
+				//'commentPluses',
+				//'pluses',
 				{
 					name: 'score',
 					title: 'Score',
 					//icon: 'certificate',
 					caption: 'computed score',
 					value: function(issue) {
-						return issue.participants * 0.5 +
-							(issue.commentPluses || 0) * 0.75 + // commentPluses might be scraped
-							issue.pluses;
+						return issue.score;
 					}
 				}
 			]

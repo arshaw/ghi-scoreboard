@@ -35,7 +35,7 @@ class DiscussionCollection
 	TODO: rename to "details"
 	###
 	computeDiscussion: (ghComments, ghReactions) ->
-		participantHash = @buildParticipantHash(ghComments)
+		participantHash = @buildParticipantHash(ghComments) # TODO: don't include comment-pluses?
 		commentPlusHash = @buildCommentPlusHash(ghComments)
 		strictPlusHash = @buildStrictPlushHash(ghReactions)
 
