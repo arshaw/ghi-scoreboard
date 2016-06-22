@@ -21,6 +21,17 @@ exports.fetchLabels = (repoUser, repoName) ->
 				reject(err)
 
 ###
+Fetches details for a single issue. Returns a proper A+ Promise.
+###
+exports.fetchIssue = (repoUser, repoName, issueNumber) ->
+	new Promise (resolve, reject) ->
+		ghUtil.fetchIssue repoUser, repoName, issueNumber, fetchItems, (err, issue) ->
+			if not err
+				resolve(issue)
+			else
+				reject(err)
+
+###
 Fetches all issues for a repo. Returns a proper A+ Promise.
 ###
 exports.fetchIssues = (repoUser, repoName) ->

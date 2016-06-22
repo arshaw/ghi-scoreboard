@@ -26,6 +26,16 @@ exports.fetchLabels = (repoUser, repoName, fetchFunc, callback) ->
 	)
 
 ###
+Fetches details for a single issue. `callback(err, issues)`
+###
+exports.fetchIssue = (repoUser, repoName, issueNumber, fetchFunc, callback) ->
+	fetchFunc(
+		'https://api.github.com/repos/' + repoUser + '/' + repoName + '/issues/' + issueNumber
+		null # params
+		callback
+	)
+
+###
 Calls `callback` when all issues for a repo are fetched. `callback(err, issues)`
 ###
 exports.fetchIssues = (repoUser, repoName, fetchFunc, callback) ->

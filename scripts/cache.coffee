@@ -71,7 +71,6 @@ writeJson = (repoName, rawData) ->
 # immediately execute!
 run()
 
-
 ###
 # TEST CODE for downloading and parsing a single issue
 
