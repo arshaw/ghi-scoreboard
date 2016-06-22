@@ -79,7 +79,7 @@ IssueCollection = require('./collections/IssueCollection')
 RepoCache = require('./models/RepoCache')
 repoConfig = RepoConfig.parseConfigs(rawConfig)[0]
 
-ghNode.fetchIssue('fullcalendar', 'fullcalendar', 2978).then (singleRawIssue) ->
+ghNode.fetchIssue('fullcalendar', 'fullcalendar', 1140).then (singleRawIssue) ->
 	issueCollection = new IssueCollection(repoConfig)
 	issueCollection.parseGithub([ singleRawIssue ])
 	repoCache = new RepoCache(repoConfig)
