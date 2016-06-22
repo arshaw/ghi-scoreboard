@@ -54,6 +54,17 @@ exports.fetchComments = (repoUser, repoName, issueNumber) ->
 				reject(err)
 
 ###
+Fetches all reaction data for a specific issue. Returns a proper A+ Promise.
+###
+exports.fetchReactions = (repoUser, repoName, issueNumber) ->
+	new Promise (resolve, reject) ->
+		ghUtil.fetchReactions repoUser, repoName, issueNumber, fetchItems, (err, comments) ->
+			if not err
+				resolve(comments)
+			else
+				reject(err)
+
+###
 The `fetchFunc` for the transport layer. See gh-util for more info.
 ###
 fetchItems = (url, params, callback) ->

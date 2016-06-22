@@ -145,10 +145,16 @@ class RepoCache
 
 			q = async.queue (issue, taskCallback) =>
 				gh.fetchComments(@repoConfig.user.name, @repoConfig.name, issue.number)
-					.then (ghComments) ->
-						discussionCollection.parseGithub(issue.number, ghComments)
-						taskCallback() # move on to next issue
-					, (err) ->
+					.then (ghComments) =>
+
+						# TODO: make this parallelizable with the comments fetch
+						# TODO: have all fetching everywhere go through the same async queue
+						gh.fetchReactions(@repoConfig.user.name, @repoConfig.name, issue.number)
+							.then (ghReactions) =>
+								discussionCollection.parseGithub(issue.number, ghComments, ghReactions)
+								taskCallback() # move on to next issue
+
+					.catch (err) ->
 						q.kill() # stop the queue, don't call drain
 						reject(err) # final callback with error
 

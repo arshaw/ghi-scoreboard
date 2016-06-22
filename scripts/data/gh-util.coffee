@@ -67,6 +67,21 @@ exports.fetchComments = (repoUser, repoName, issueNumber, fetchFunc, callback) -
 	)
 
 ###
+Calls `callback` when all reactions for a single issue are fetched. `callback(err, comments)`
+###
+exports.fetchReactions = (repoUser, repoName, issueNumber, fetchFunc, callback) ->
+	fetchAllItems(
+		'https://api.github.com/repos/' + repoUser + '/' + repoName +
+			'/issues/' + issueNumber + '/reactions'
+		{
+			per_page: MAX_PER_PAGE
+			# TODO: do a limit of max results returned
+		}
+		fetchFunc
+		callback
+	)
+
+###
 Given a `fetchFunc`, returns an accumulation of all pages of items.
 ###
 fetchAllItems = (url, params, fetchFunc, callback) ->

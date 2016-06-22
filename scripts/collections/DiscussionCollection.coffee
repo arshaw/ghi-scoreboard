@@ -19,7 +19,7 @@ class DiscussionCollection
 	###
 	Process comments for a single issue from the Github API and store the compiled data
 	###
-	parseGithub: (issueNumber, ghComments) ->
+	parseGithub: (issueNumber, ghComments, ghReactions) ->
 
 		# preset computations
 		discussion = {
