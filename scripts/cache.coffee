@@ -70,3 +70,23 @@ writeJson = (repoName, rawData) ->
 
 # immediately execute!
 run()
+
+
+###
+# TEST CODE for downloading and parsing a single issue
+
+ghNode = require('./data/gh-node')
+IssueCollection = require('./collections/IssueCollection')
+RepoCache = require('./models/RepoCache')
+repoConfig = RepoConfig.parseConfigs(rawConfig)[0]
+
+ghNode.fetchIssue('fullcalendar', 'fullcalendar', 2978).then (singleRawIssue) ->
+	issueCollection = new IssueCollection(repoConfig)
+	issueCollection.parseGithub([ singleRawIssue ])
+	repoCache = new RepoCache(repoConfig)
+	repoCache.fetchDiscussions(issueCollection) # promise
+.then (discussionCollection) ->
+	console.log(discussionCollection.getRaw())
+.catch (err) ->
+	console.log(err.stack)
+###
