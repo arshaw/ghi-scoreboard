@@ -73,7 +73,7 @@ Nearly all of the following config settings can be specified on a per-repo basis
 
 By default, the browser fetches Github Issue every time the scoreboard is loaded. If you have many issues, you may want to pre-fetch them on your server-side first, so the client renders faster.
 
-Also, many of the issue stats you wish to display require pre-fetching a processing on the server-side. Please see notes in the [Standard Column Types](#standard-column-types) documentation.
+Also, many of the issue stats you wish to display require pre-fetching a processing on the server-side. Please see notes in the [Standard Columns](#standard-columns) documentation.
 
 
 #### Flags
@@ -86,14 +86,14 @@ To pre-fetch data, certain flags must be toggled on. The `./bin/aggregate` scrip
 `Boolean`. Whether to fetch and store stripped-down issue data on the server-side for faster scoreboard pageload. Not required. Recommended if your repo has more than 200 open issues.
 
 
-##### aggregateReactions
-
-`Boolean`. Whether to fetch and process thumbs-up reaction data. Required by many [Standard Column Types](#standard-column-types).
-
-
 ##### aggregateComments
 
-`Boolean`. Whether to fetch and process comment data. Required by many [Standard Column Types](#standard-column-types).
+`Boolean`. Whether to fetch and process comment data. Required by many [Standard Columns](#standard-columns).
+
+
+##### aggregateReactions
+
+`Boolean`. Whether to fetch and process thumbs-up reaction data. Required by many [Standard Columns](#standard-columns).
 
 
 #### Filters
@@ -103,17 +103,17 @@ Hooks are available to store additional data received by the pre-fetched Github 
 
 ##### processIssue
 
-`function(issue, ghIssue)`. Given the raw object returned by the Github API, you may compute and assign additional properties to the resulting `issue` object.
+`function(issue, ghIssue)`. Given the raw object returned by the Github API, you may compute and assign additional properties to the given `issue` object.
 
 
 ##### processComments
 
-`function(issue, ghComments)`. Given the raw list of Github API comments for a particular issue, you may compute and assign additional properties to the resulting `issue` object.
+`function(issue, ghComments)`. Given the raw list of Github API comments for a particular issue, you may compute and assign additional properties to the given `issue` object.
 
 
 ##### processReactions
 
-`function(issue, ghReactions)`. Given the raw list of Github API reactions for a particular issue, you may compute and assign additional properties to the resulting `issue` object.
+`function(issue, ghReactions)`. Given the raw list of Github API reactions for a particular issue, you may compute and assign additional properties to the given `issue` object.
 
 
 #### Excluding Users
@@ -135,10 +135,10 @@ The default `columns` configuration is this:
 columns: [ 'number', 'titleAndLabels', 'plusReactions' ]
 ```
 
-Entries within the array can be simple strings, which indicate a standard column type, or they can be complex object, which indicate [custom column types](#custom-column-types).
+Entries within the array can be simple strings, which indicate a standard column type, or they can be complex object, which indicate [Custom Columns](#custom-columns).
 
 
-#### Standard Column Types
+#### Standard Columns
 
 The following column types are built-in and ready to use:
 
@@ -160,7 +160,7 @@ The title of the issue in addition to its labels. If the issue table lives withi
 
 ##### plusReactions
 
-Number of users who have given a :+1: reaction to the issue. Only reactions on the topmost issue description count.
+Number of unique users who have given a :+1: reaction to the issue. Only reactions on the topmost issue description count.
 
 
 ##### plusComments
@@ -172,9 +172,9 @@ Number of *unique* users who have written a comment consisting solely of "+1" or
 
 ##### plusScore
 
-Requires `aggregateReactions:true` and `aggregateComments:true`
+Requires `aggregateComments:true` and `aggregateReactions:true`
 
-Number of *unique* users who have either given a plusReaction or a plusComment. Weighted by `plusReactionWeight` and `plusCommentWeight`.
+Number of *unique* users who have either given a plusComment or a plusReaction. Weighted by `plusCommentWeight` and `plusReactionWeight`.
 
 
 ##### participants
@@ -193,9 +193,9 @@ Number of *unique* users who have written comments. Comments that consist solely
 
 ##### score 
 
-Requires `aggregateReactions:true` and `aggregateComments:true`
+Requires `aggregateComments:true` and `aggregateReactions:true`
 
-Number of *unique* users who have either written comments, given plusReactions, or given plusComments. Will be weighted by `participantWeight`, `plusReactionWeight`, or `plusCommentWeight`.
+Number of *unique* users who have either written comments, given plusComments, or given plusReactions. Will be weighted by `participantWeight`, `plusCommentWeight`, and `plusReactionWeight`.
 
 
 #### Custom Columns
@@ -232,11 +232,6 @@ Text heading above the column data.
 `function(issue)`. Programmatically generates a value. Given a barebones `issue` object that has tacked-on fields from `processIssue`, `processComment`, or `processReactions`. Must return a value to be used.
 
 
-##### field
-
-`string`. The name of a property to query on the internal `issue` object, which can have tacked-on properties from `processIssue`, `processComment`, or `processReactions`.
-
-
 ##### icon
 
 `string`. Icon to display in the table heading. A value like `'star'` will result in the [Glyphicon](http://glyphicons.com/) `glyphicon-star`.
@@ -263,11 +258,11 @@ Defaults to the rightmost column.
 
 ### Weights
 
-As mentioned in a number of the [standard column types](#standard-column-types), scores can be weighted by the following floating-point values, all of which default to `1.0`:
+As mentioned in a number of the [Standard Columns](#standard-columns), scores can be weighted by the following floating-point values, all of which default to `1.0`:
 
+- **participantWeight**
 - **plusCommentWeight**
 - **plusReactionWeight**
-- **participantWeight**
 
 Many of the standard column types are compound weighted values, unique by user. If there is a collision, the value with the highest weight will take precedence.
 
