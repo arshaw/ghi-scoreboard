@@ -68,7 +68,7 @@ class RepoModel
 	Returns a promise.
 	###
 	fetchLabels: ->
-		if @repoConfig.cacheIssues # implies that labels are cached
+		if @repoConfig.aggregateIssues # implies that labels are cached
 			@getCache().then (rawData) =>
 				labelCollection = new LabelCollection(@repoConfig)
 				labelCollection.setRaw(rawData.labels)
@@ -81,7 +81,7 @@ class RepoModel
 	Returns a promise.
 	###
 	fetchIssues: ->
-		if @repoConfig.cacheIssues
+		if @repoConfig.aggregateIssues
 			@getCache().then (rawData) =>
 				issueCollection = new IssueCollection(@repoConfig)
 				issueCollection.setRaw(rawData.issues)
@@ -91,11 +91,11 @@ class RepoModel
 
 	###
 	Fetches an CommentSummary from cache.
-	If the `cacheComments` config option is not on, resolves to an empty collection.
+	If the `aggregateComments` config option is not on, resolves to an empty collection.
 	Returns a promise.
 	###
 	fetchComments: ->
-		if @repoConfig.cacheComments
+		if @repoConfig.aggregateComments
 			@getCache().then (rawData) =>
 				commentCollection = new CommentSummary(@repoConfig)
 				commentCollection.setRaw(rawData.comments)
@@ -106,11 +106,11 @@ class RepoModel
 
 	###
 	Fetches an ReactionSummary from cache.
-	If the `cacheReactions` config option is not on, resolves to an empty collection.
+	If the `aggregateReactions` config option is not on, resolves to an empty collection.
 	Returns a promise.
 	###
 	fetchReactions: ->
-		if @repoConfig.cacheReactions
+		if @repoConfig.aggregateReactions
 			@getCache().then (rawData) =>
 				reactionCollection = new ReactionSummary(@repoConfig)
 				reactionCollection.setRaw(rawData.reactions)

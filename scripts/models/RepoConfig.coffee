@@ -34,9 +34,9 @@ class RepoConfig
 	sortBy: null
 
 	# flags
-	cacheIssues: null
-	cacheComments: null
-	cacheReactions: null
+	aggregateIssues: null
+	aggregateComments: null
+	aggregateReactions: null
 
 	# functions (might be null)
 	parseIssue: null
@@ -65,9 +65,9 @@ class RepoConfig
 		@columns = normalizeColumns(input.columns or fallback.columns)
 		@sortBy = @raw.sortBy or @columns[@columns.length - 1].name
 
-		@cacheIssues = @raw.cacheIssues ? false
-		@cacheComments = @raw.cacheComments ? false
-		@cacheReactions = @raw.cacheReactions ? false
+		@aggregateIssues = @raw.aggregateIssues ? false
+		@aggregateComments = @raw.aggregateComments ? false
+		@aggregateReactions = @raw.aggregateReactions ? false
 
 		@parseIssue = @raw.parseIssue or null
 		@parseComments = @raw.parseComments or null

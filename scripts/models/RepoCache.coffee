@@ -66,7 +66,7 @@ class RepoCache
 	Returns a promise.
 	###
 	buildLabels: ->
-		if @repoConfig.cacheIssues # implies that labels should be cached
+		if @repoConfig.aggregateIssues # implies that labels should be cached
 			@getLabels().then (labelCollection) ->
 				labelCollection.getRaw()
 		else
@@ -78,7 +78,7 @@ class RepoCache
 	Returns a promise.
 	###
 	buildIssues: ->
-		if @repoConfig.cacheIssues
+		if @repoConfig.aggregateIssues
 			@getIssues().then (issueCollection) ->
 				issueCollection.getRaw()
 		else
@@ -90,7 +90,7 @@ class RepoCache
 	Returns a promise.
 	###
 	buildComments: ->
-		if @repoConfig.cacheComments
+		if @repoConfig.aggregateComments
 			@getComments().then (commentCollection) ->
 				commentCollection.getRaw()
 		else
@@ -102,7 +102,7 @@ class RepoCache
 	Returns a promise.
 	###
 	buildReactions: ->
-		if @repoConfig.cacheReactions
+		if @repoConfig.aggregateReactions
 			@getReactions().then (reactionCollection) ->
 				reactionCollection.getRaw()
 		else

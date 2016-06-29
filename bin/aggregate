@@ -5,4 +5,4 @@
 # go to project root
 cd "`dirname $0`/.."
 
-./node_modules/coffee-script/bin/coffee ./scripts/cache.coffee
+./node_modules/coffee-script/bin/coffee ./scripts/aggregate.coffee
