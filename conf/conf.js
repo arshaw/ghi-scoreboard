@@ -32,7 +32,7 @@ module.exports = {
 			user: 'fullcalendar',
 			name: 'fullcalendar',
 
-			parseIssue: function(issue, ghIssue) {
+			parseIssue: function(ghIssue, issue) {
 				// match "Imported with **4** stars"
 				var match = ghIssue.body.match(/Imported with \**(\d+)\** star/);
 				issue.legacyStars = match ? parseInt(match[1], 10) : 0;
