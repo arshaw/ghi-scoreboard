@@ -1,8 +1,8 @@
 
 <h2>
 	{{#label}}
-		<a href="{{url}}" target="_blank" class="label"
-			style="background-color:{{bgColor}};color:{{textColor}}"
+		<a href="{{getUrl}}" target="_blank" class="label"
+			style="background-color:{{getBgColor}};color:{{getTextColor}}"
 			>
 			{{name}}
 			<span class="badge">{{../count}}</span>

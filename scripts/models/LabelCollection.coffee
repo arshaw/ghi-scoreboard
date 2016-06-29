@@ -22,55 +22,34 @@ class LabelCollection
 	###
 	parseGithub: (ghLabels) ->
 		for ghLabel in ghLabels
-			bgColor = '#' + ghLabel.color
-			@addLabel
-				name: ghLabel.name
-				url: @computeUrl(ghLabel)
-				bgColor: bgColor
-				textColor: @computeTextColor(bgColor) # not provided by the API :(
+			label = new Label(@repoConfig)
+			label.parseGithub(ghLabel)
+			@addLabel(label)
+		return
 
 	###
-	Adds a label to the internal data structures
+	For deserialization
 	###
-	addLabel: (label) ->
-		@items.push(label)
-		@hash[label.name] = label
-
-	###
-	Given a label from the Github API, computes the URL, a search query on the issue tracker
-	###
-	computeUrl: (ghLabel) ->
-		'https://github.com/' + @repoConfig.user.name + '/' + @repoConfig.name + '/issues?q=' +
-			encodeURIComponent(
-				'is:open is:issue label:' +
-				if ghLabel.name.match(/\s/) # any whitespace?
-					'"' + ghLabel.name + '"'
-				else
-					ghLabel.name
-			)
-
-	###
-	Given a CSS string background color, compute a contrasting CSS color
-	###
-	computeTextColor: (bgColor) ->
-		color = new Color(bgColor)
-		if color.luminosity() < 0.45 # dark background? (what gh seems to use)
-			'#fff' # light text
-		else
-			'#000' # dark text
+	setRaw: (rawLabels) ->
+		for rawLabel in rawLabels
+			label = new Label(@repoConfig)
+			label.setRaw(rawLabel)
+			@addLabel(label)
+		return
 
 	###
 	For serialization
 	###
 	getRaw: ->
-		@items
+		for label in @items # return value
+			label.getRaw()
 
 	###
-	For deserialization
+	Adds a proper Label object to the internal data structures
 	###
-	setRaw: (items) ->
-		for label in items
-			@addLabel(label)
+	addLabel: (label) ->
+		@items.push(label)
+		@hash[label.name] = label
 
 	###
 	Retrieves a normalized label object, given a string name
@@ -84,6 +63,76 @@ class LabelCollection
 	getForIssue: (issue) ->
 		for labelName in issue.labelNames
 			@hash[labelName]
+
+###
+Class for an INDIVIDUAL label
+###
+class Label
+
+	repoConfig: null
+	name: null
+	rawColor: null
+	_textColor: null # internal only
+
+	###
+	Accepts a RepoConfig
+	###
+	constructor: (@repoConfig) ->
+
+	###
+	Process a single label from the Github API
+	###
+	parseGithub: (ghLabel) ->
+		@name = ghLabel.name
+		@rawColor = ghLabel.color
+
+	###
+	For deserialization
+	###
+	setRaw: (rawObj) ->
+		@name = rawObj.name
+		@rawColor = rawObj.color
+
+	###
+	For serialization
+	###
+	getRaw: ->
+		{ @name, color: @rawColor }
+
+	###
+	Compute the label's URL
+	###
+	getUrl: ->
+		'https://github.com/' + @repoConfig.user.name + '/' + @repoConfig.name + '/issues?q=' +
+			encodeURIComponent(
+				'is:open is:issue label:' +
+				if ghLabel.name.match(/\s/) # any whitespace?
+					'"' + ghLabel.name + '"'
+				else
+					ghLabel.name
+			)
+
+	###
+	Get a CSS color for the background
+	###
+	getBgColor: ->
+		'#' + @rawColor
+
+	###
+	Get a CSS color for the text
+	###
+	getTextColor: ->
+		@_textColor ?= @computeTextColor()
+
+	###
+	Given a CSS string background color, compute a contrasting CSS color
+	###
+	computeTextColor: ->
+		color = new Color('#' + @rawColor)
+		if color.luminosity() < 0.45 # dark background? (what gh seems to use)
+			'#fff' # light text
+		else
+			'#000' # dark text
 
 # make public
 module.exports = LabelCollection

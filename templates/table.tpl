@@ -33,8 +33,8 @@
 					{{title}}
 					<span class="issue-labels">
 						{{#labels}}
-							<a href="{{url}}" target="_blank" class="label"
-								style="background-color:{{bgColor}};color:{{textColor}}"
+							<a href="{{getUrl}}" target="_blank" class="label"
+								style="background-color:{{getBgColor}};color:{{getTextColor}}"
 							>{{name}}</a>
 						{{/labels}}
 					</span>
