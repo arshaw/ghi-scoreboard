@@ -2,8 +2,8 @@
 Promise = require('promise')
 async = require('async')
 gh = require('../data/gh-node')
-LabelCollection = require('../collections/LabelCollection')
-IssueCollection = require('../collections/IssueCollection')
+LabelCollection = require('./LabelCollection')
+IssueCollection = require('./IssueCollection')
 CommentSummary = require('./CommentSummary')
 ReactionSummary = require('./ReactionSummary')
 

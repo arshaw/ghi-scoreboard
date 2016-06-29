@@ -4,10 +4,10 @@ Usage:
 Fetches the given issue from the first repo specified in the config.
 ###
 
+ghNode = require('./data/gh-node')
 RepoConfig = require('./models/RepoConfig')
 RepoCache = require('./models/RepoCache')
-ghNode = require('./data/gh-node')
-IssueCollection = require('./collections/IssueCollection')
+IssueCollection = require('./models/IssueCollection')
 
 rawConfig = require('../conf/conf')
 repoConfig = RepoConfig.parseConfigs(rawConfig)[0]
@@ -30,5 +30,5 @@ else
 			console.log('issues', issueCollection.getRaw())
 			console.log('comments', results[1].getRaw())
 			console.log('reactions', results[2].getRaw())
-		.catch (err) ->
-			console.log(err.stack)
+	.catch (err) ->
+		console.log(err.stack)

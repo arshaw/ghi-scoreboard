@@ -2,7 +2,7 @@
 $ = require('jquery')
 _ = require('lodash')
 Cookie = require('js-cookie')
-RowCollection = require('../collections/RowCollection')
+RowCollection = require('./RowCollection')
 
 # TODO: also requires Bootstrap JS
 
