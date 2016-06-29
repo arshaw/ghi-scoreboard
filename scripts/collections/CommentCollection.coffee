@@ -31,24 +31,28 @@ class CommentCollection # TODO: rename to CommentSummary
 	Returns a stats object about a single issue's comments
 	###
 	computeSummary: (ghComments) ->
-		normalHash = {}
-		plusHash = {}
+		plusHash = {} # by username
+		nonPlusHash = {} # by username
 
 		for ghComment in ghComments
 			username = ghComment.user.login
 
-			# "+1" (text, at beginning) or ":+1:" (thumbsup emoji, anywhere)
-			# TODO: make it so that whole comment contents needs to match
-			if /(^\s*\+1|\:\+1\:)/.test(ghComment.body)
+			# "+1" (text) or ":+1:" (thumbsup emoji)
+			if /\+1/.test(ghComment.body)
 				plusHash[username] = true
 			else
-				normalHash[username] = true
+				nonPlusHash[username] = true
 
-		# TODO: don't set empty keys
-		{
-			normal: _.keys(normalHash)
-			pluses: _.keys(plusHash)
-		}
+		plusUsernames = _.keys(plusHash)
+		nonPlusUsernames = _.keys(nonPlusHash)
+
+		# compile into an object and return
+		out = {}
+		if plusUsernames.length
+			out.plus = plusUsernames
+		if nonPlusUsernames.length
+			out.nonplus = nonPlusUsernames
+		out
 
 	###
 	For serialization

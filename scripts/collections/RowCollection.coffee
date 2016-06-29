@@ -58,37 +58,39 @@ class RowCollection
 	Compute import stock cell values available to the row. Returns a new object.
 	###
 	computeStockValues: (issue) ->
-		normalCommentHash = @buildUsernameHash(issue.commentBreakdown?.normal)
-		plusCommentHash = @buildUsernameHash(issue.commentBreakdown?.pluses)
-		plusReactionHash = @buildUsernameHash(issue.reactionBreakdown?.pluses)
+		nonPlusCommentUsernames = (issue.commentBreakdown or {}).nonPlus or []
+		plusCommentUsernames = (issue.commentBreakdown or {}).plus or []
+		plusReactionUsernames = (issue.reactionBreakdown or {}).plus or []
 
-		combinedHash = _.assign({}, normalCommentHash, plusCommentHash, plusReactionHash)
+		nonPlusCommentHash = @buildUsernameHash(nonPlusCommentUsernames)
+		plusCommentHash = @buildUsernameHash(plusCommentUsernames)
+		plusReactionHash = @buildUsernameHash(plusReactionUsernames)
+
+		combinedHash = _.assign({}, nonPlusCommentHash, plusCommentHash, plusReactionHash)
 		usernames = _.keys(combinedHash)
 		totalScore = 0
 
 		for username in usernames
 			totalScore += Math.max(
-				(if normalCommentHash[username] then 1 else 0) * 0.8 # TODO: participantWeight
+				(if nonPlusCommentHash[username] then 1 else 0) * 0.8 # TODO: participantWeight
 				(if plusCommentHash[username] then 1 else 0) * 0.9 # TODO: commentPlusWeight
 				(if plusReactionHash[username] then 1 else 0) * 1.0 # TODO: strictPlusWeight
 			)
 
 		{
-			participants: _.keys(normalCommentHash).length # TODO: inefficient
-			plusComments: _.keys(plusCommentHash).length # TODO: inefficient
-			plusReactions: _.keys(plusReactionHash).length # TODO: inefficient
+			participants: nonPlusCommentUsernames.length + plusCommentUsernames.length
+			plusComments: plusCommentUsernames.length
+			plusReactions: plusReactionUsernames.length
 			score: totalScore
 		}
 
 	###
 	Turns an array of username strings into a hash. Has `true` values.
-	Input can be falsy and still work.
 	###
 	buildUsernameHash: (usernameArray) ->
 		usernameHash = {}
-		if usernameArray
-			for username in usernameArray
-				usernameHash[username] = true # TODO: filter with blacklist
+		for username in usernameArray
+			usernameHash[username] = true # TODO: filter with blacklist
 		usernameHash
 
 	###

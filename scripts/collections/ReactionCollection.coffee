@@ -32,16 +32,19 @@ class ReactionCollection # TODO: rename to ReactionSummary
 	Returns a stats object about a single issue's reactions
 	###
 	computeSummary: (ghReactions) ->
-		usernameHash = {}
+		plusHash = {} # by username
 
 		for ghReaction in ghReactions
 			if ghReaction.content == '+1'
-				usernameHash[ghReaction.user.login] = true
+				plusHash[ghReaction.user.login] = true
 
-		# TODO: don't set empty keys
-		{
-			pluses: _.keys(usernameHash)
-		}
+		plusUsernames = _.keys(plusHash)
+
+		# compile into an object and return
+		out = {}
+		if plusUsernames.length
+			out.plus = plusUsernames
+		out
 
 	###
 	For serialization
