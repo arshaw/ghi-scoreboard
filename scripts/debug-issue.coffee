@@ -16,19 +16,19 @@ issueNumber = Number(process.argv[process.argv.length - 1])
 if isNaN(issueNumber)
 	console.log("must provide an issue number")
 else
-	ghNode.fetchIssue(repoConfig.user.name, repoConfig.name, issueNumber).then (singleRawIssue) ->
+	ghNode.fetchIssue(repoConfig.user.name, repoConfig.name, issueNumber).then (ghIssue) ->
 		issueCollection = new IssueCollection(repoConfig)
-		issueCollection.parseGithub([ singleRawIssue ])
-
-		console.log('issues', issueCollection.getRaw())
-
+		issueCollection.parseGithub([ ghIssue ])
 		repoCache = new RepoCache(repoConfig)
 		Promise.all([
+			repoCache.fetchLabels()
 			repoCache.fetchComments(issueCollection)
 			repoCache.fetchReactions(issueCollection)
 		])
-	.then (results) ->
-		console.log('comments', results[0].getRaw())
-		console.log('reactions', results[1].getRaw())
-	.catch (err) ->
-		console.log(err.stack)
+		.then (results) ->
+			console.log('labels', results[0].getRaw())
+			console.log('issues', issueCollection.getRaw())
+			console.log('comments', results[1].getRaw())
+			console.log('reactions', results[2].getRaw())
+		.catch (err) ->
+			console.log(err.stack)
