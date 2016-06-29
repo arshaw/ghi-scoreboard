@@ -23,11 +23,14 @@ class IssueCollection
 					url: ghIssue.html_url
 					title: ghIssue.title
 					comments: ghIssue.comments
-					pluses: ghIssue.reactions['+1']
+					plusReactions: ghIssue.reactions['+1']
 					labelNames: (ghLabel.name for ghLabel in ghIssue.labels)
 				}
+
+				# hook for computing additional properties
 				if @repoConfig.parseIssue
-					@repoConfig.parseIssue(issue, ghIssue)
+					@repoConfig.parseIssue(ghIssue, issue, ghIssue.number)
+
 				issue
 
 	###

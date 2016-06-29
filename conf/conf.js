@@ -1,7 +1,8 @@
 module.exports = {
 
 	cacheIssues: true,
-	cacheDiscussions: true,
+	cacheComments: true,
+	cacheReactions: true,
 
 	logo: {
 		url: "http://fullcalendar.io/images/logo.svg",

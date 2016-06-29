@@ -41,13 +41,18 @@ class RepoView
 		$.when(
 			@repoModel.getLabels()
 			@repoModel.getIssues()
-			@repoModel.getDiscussions()
-		).then (labelCollection, issueCollection, discussionCollection) =>
+			@repoModel.getComments()
+			@repoModel.getReactions()
+		).then (labelCollection, issueCollection, commentCollection, reactionCollection) =>
 
 			@labelCollection = labelCollection
 
 			rowCollection = new RowCollection(@repoModel.repoConfig)
-			rowCollection.processCollections(issueCollection, discussionCollection)
+			rowCollection.processCollections(
+				issueCollection
+				commentCollection
+				reactionCollection
+			)
 
 			@$el.html(@renderHtml(rowCollection))
 			@initHandlers()

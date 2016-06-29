@@ -35,11 +35,13 @@ class RepoConfig
 
 	# flags
 	cacheIssues: null
-	cacheDiscussions: null
+	cacheComments: null
+	cacheReactions: null
 
 	# functions (might be null)
 	parseIssue: null
-	parseDiscussion: null
+	parseComments: null
+	parseReactions: null
 	displayValue: null
 
 	constructor: (input, fallback={}) ->
@@ -64,10 +66,12 @@ class RepoConfig
 		@sortBy = @raw.sortBy or @columns[@columns.length - 1].name
 
 		@cacheIssues = @raw.cacheIssues ? false
-		@cacheDiscussions = @raw.cacheDiscussions ? false
+		@cacheComments = @raw.cacheComments ? false
+		@cacheReactions = @raw.cacheReactions ? false
 
 		@parseIssue = @raw.parseIssue or null
-		@parseDiscussion = @raw.parseDiscussion or null
+		@parseComments = @raw.parseComments or null
+		@parseReactions = @raw.parseReactions or null
 		@displayValue = @raw.displayValue or null
 
 

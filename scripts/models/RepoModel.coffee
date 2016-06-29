@@ -3,22 +3,24 @@ $ = require('jquery')
 gh = require('../data/gh-jquery')
 LabelCollection = require('../collections/LabelCollection')
 IssueCollection = require('../collections/IssueCollection')
-DiscussionCollection = require('../collections/DiscussionCollection')
+CommentCollection = require('../collections/CommentCollection')
+ReactionCollection = require('../collections/ReactionCollection')
 
 # where the JSON cache files live, relative the app's root in the browser
 CACHE_PATH = 'json'
 
 ###
-Holds information about a repo's issue tracker, including labels/issues/discussions.
+Holds information about a repo's issue tracker, including labels/issues/comments/reactions.
 INTENDED FOR CLIENT-SIDE USE ONLY.
 For backend use, pass around a RepoConfig instead.
 ###
 class RepoModel
 
 	repoConfig: null
-	labelPromise: null
-	issuePromise: null
-	discussionPromise: null
+	labelsPromise: null
+	issuesPromise: null
+	commentsPromise: null
+	reactionsPromise: null
 	cachePromise: null
 
 	###
@@ -31,21 +33,28 @@ class RepoModel
 	Resolves to a LabelCollection. Won't fetch more than once.
 	###
 	getLabels: ->
-		@labelPromise ?= @fetchLabels() # TODO: not safe against recursion
+		@labelsPromise ?= @fetchLabels() # TODO: not safe against recursion
 
 	###
 	Returns a promise for getting all the issue tracker's issues.
 	Resolves to a IssueCollection. Won't fetch more than once.
 	###
 	getIssues: ->
-		@issuePromise ?= @fetchIssues() # TODO: not safe against recursion
+		@issuesPromise ?= @fetchIssues() # TODO: not safe against recursion
 
 	###
-	Returns a promise for getting compiled discussion information for all issues.
-	Resolves to a DiscussionCollection. Won't fetch more than once.
+	Returns a promise for getting compiled comment information for all issues.
+	Resolves to a CommentCollection. Won't fetch more than once.
 	###
-	getDiscussions: ->
-		@discussionPromise ?= @fetchDiscussions()
+	getComments: ->
+		@commentsPromise ?= @fetchComments()
+
+	###
+	Returns a promise for getting compiled reaction information for all issues.
+	Resolves to a ReactionCollection. Won't fetch more than once.
+	###
+	getReactions: ->
+		@reactionsPromise ?= @fetchReactions()
 
 	###
 	Returns a promise for getting the raw data of the server-side cache,
@@ -81,18 +90,33 @@ class RepoModel
 			@fetchIssuesFromGithub()
 
 	###
-	Fetches an DiscussionCollection from cache.
-	If the `cacheDiscussions` config option is not on, resolves to an empty collection.
+	Fetches an CommentCollection from cache.
+	If the `cacheComments` config option is not on, resolves to an empty collection.
 	Returns a promise.
 	###
-	fetchDiscussions: ->
-		if @repoConfig.cacheDiscussions
+	fetchComments: ->
+		if @repoConfig.cacheComments
 			@getCache().then (rawData) =>
-				discussionCollection = new DiscussionCollection(@repoConfig)
-				discussionCollection.setRaw(rawData.discussions)
-				discussionCollection
+				commentCollection = new CommentCollection(@repoConfig)
+				commentCollection.setRaw(rawData.comments)
+				commentCollection
 		else
-			emptyCollection = new DiscussionCollection(@repoConfig)
+			emptyCollection = new CommentCollection(@repoConfig)
+			$.Deferred().resolve(emptyCollection).promise()
+
+	###
+	Fetches an ReactionCollection from cache.
+	If the `cacheReactions` config option is not on, resolves to an empty collection.
+	Returns a promise.
+	###
+	fetchReactions: ->
+		if @repoConfig.cacheReactions
+			@getCache().then (rawData) =>
+				reactionCollection = new ReactionCollection(@repoConfig)
+				reactionCollection.setRaw(rawData.reactions)
+				reactionCollection
+		else
+			emptyCollection = new ReactionCollection(@repoConfig)
 			$.Deferred().resolve(emptyCollection).promise()
 
 	###
