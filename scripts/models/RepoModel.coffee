@@ -3,8 +3,8 @@ $ = require('jquery')
 gh = require('../data/gh-jquery')
 LabelCollection = require('../collections/LabelCollection')
 IssueCollection = require('../collections/IssueCollection')
-CommentCollection = require('../collections/CommentCollection')
-ReactionCollection = require('../collections/ReactionCollection')
+CommentSummary = require('./CommentSummary')
+ReactionSummary = require('./ReactionSummary')
 
 # where the JSON cache files live, relative the app's root in the browser
 CACHE_PATH = 'json'
@@ -44,14 +44,14 @@ class RepoModel
 
 	###
 	Returns a promise for getting compiled comment information for all issues.
-	Resolves to a CommentCollection. Won't fetch more than once.
+	Resolves to a CommentSummary. Won't fetch more than once.
 	###
 	getComments: ->
 		@commentsPromise ?= @fetchComments()
 
 	###
 	Returns a promise for getting compiled reaction information for all issues.
-	Resolves to a ReactionCollection. Won't fetch more than once.
+	Resolves to a ReactionSummary. Won't fetch more than once.
 	###
 	getReactions: ->
 		@reactionsPromise ?= @fetchReactions()
@@ -90,33 +90,33 @@ class RepoModel
 			@fetchIssuesFromGithub()
 
 	###
-	Fetches an CommentCollection from cache.
+	Fetches an CommentSummary from cache.
 	If the `cacheComments` config option is not on, resolves to an empty collection.
 	Returns a promise.
 	###
 	fetchComments: ->
 		if @repoConfig.cacheComments
 			@getCache().then (rawData) =>
-				commentCollection = new CommentCollection(@repoConfig)
+				commentCollection = new CommentSummary(@repoConfig)
 				commentCollection.setRaw(rawData.comments)
 				commentCollection
 		else
-			emptyCollection = new CommentCollection(@repoConfig)
+			emptyCollection = new CommentSummary(@repoConfig)
 			$.Deferred().resolve(emptyCollection).promise()
 
 	###
-	Fetches an ReactionCollection from cache.
+	Fetches an ReactionSummary from cache.
 	If the `cacheReactions` config option is not on, resolves to an empty collection.
 	Returns a promise.
 	###
 	fetchReactions: ->
 		if @repoConfig.cacheReactions
 			@getCache().then (rawData) =>
-				reactionCollection = new ReactionCollection(@repoConfig)
+				reactionCollection = new ReactionSummary(@repoConfig)
 				reactionCollection.setRaw(rawData.reactions)
 				reactionCollection
 		else
-			emptyCollection = new ReactionCollection(@repoConfig)
+			emptyCollection = new ReactionSummary(@repoConfig)
 			$.Deferred().resolve(emptyCollection).promise()
 
 	###

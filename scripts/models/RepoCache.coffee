@@ -4,8 +4,8 @@ async = require('async')
 gh = require('../data/gh-node')
 LabelCollection = require('../collections/LabelCollection')
 IssueCollection = require('../collections/IssueCollection')
-CommentCollection = require('../collections/CommentCollection')
-ReactionCollection = require('../collections/ReactionCollection')
+CommentSummary = require('./CommentSummary')
+ReactionSummary = require('./ReactionSummary')
 
 ###
 Builds the server-side cache to be used by the frontend.
@@ -123,7 +123,7 @@ class RepoCache
 		@issuesPromise ?= @fetchIssues() # TODO: not safe against recursion
 
 	###
-	Generates a CommentCollection for all issues in a repo.
+	Generates a CommentSummary for all issues in a repo.
 	Returns a promise. Won't fetch more than once.
 	###
 	getComments: ->
@@ -131,7 +131,7 @@ class RepoCache
 			@fetchComments(issueCollection)
 
 	###
-	Generates a ReactionCollection for all issues in a repo.
+	Generates a ReactionSummary for all issues in a repo.
 	Returns a promise. Won't fetch more than once.
 	###
 	getReactions: ->
@@ -159,12 +159,12 @@ class RepoCache
 			issueCollection
 
 	###
-	Fetches and summarizes comment data for all issues. Returns a promise the yields a CommentCollection.
+	Fetches and summarizes comment data for all issues. Returns a promise the yields a CommentSummary.
 	Will rate-limit the requests because there will be one request per-issue.
 	###
 	fetchComments: (issueCollection) ->
 		new Promise (resolve, reject) =>
-			commentCollection = new CommentCollection(@repoConfig)
+			commentCollection = new CommentSummary(@repoConfig)
 
 			q = async.queue (issue, taskCallback) =>
 				gh.fetchComments(@repoConfig.user.name, @repoConfig.name, issue.number)
@@ -183,12 +183,12 @@ class RepoCache
 			q.push(issueCollection.items) # start processing
 
 	###
-	Fetches and summarizes reaction data for all issues. Returns a promise the yields a ReactionCollection.
+	Fetches and summarizes reaction data for all issues. Returns a promise the yields a ReactionSummary.
 	Will rate-limit the requests because there will be one request per-issue.
 	###
 	fetchReactions: (issueCollection) ->
 		new Promise (resolve, reject) =>
-			reactionCollection = new ReactionCollection(@repoConfig)
+			reactionCollection = new ReactionSummary(@repoConfig)
 
 			q = async.queue (issue, taskCallback) =>
 				gh.fetchReactions(@repoConfig.user.name, @repoConfig.name, issue.number)

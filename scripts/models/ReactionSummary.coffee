@@ -4,7 +4,7 @@ _ = require('lodash')
 ###
 Holds aggregated reaction information for each issue in a repo.
 ###
-class ReactionCollection # TODO: rename to ReactionSummary
+class ReactionSummary
 
 	repoConfig: null
 	hash: null # keyed by issue number
@@ -64,4 +64,4 @@ class ReactionCollection # TODO: rename to ReactionSummary
 		@hash[issueNumber]
 
 # make public
-module.exports = ReactionCollection
+module.exports = ReactionSummary

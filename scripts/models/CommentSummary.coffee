@@ -4,7 +4,7 @@ _ = require('lodash')
 ###
 Holds aggregated comment information for each issue in a repo.
 ###
-class CommentCollection # TODO: rename to CommentSummary
+class CommentSummary
 
 	repoConfig: null
 	hash: null # keyed by issue number
@@ -72,4 +72,4 @@ class CommentCollection # TODO: rename to CommentSummary
 		@hash[issueNumber]
 
 # make public
-module.exports = CommentCollection
+module.exports = CommentSummary
