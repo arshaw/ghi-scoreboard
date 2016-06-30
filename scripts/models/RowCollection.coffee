@@ -61,31 +61,38 @@ class RowCollection
 	Compute import stock cell values available to the row. Returns a new object.
 	###
 	computeStockValues: (row) ->
+
+		# FYI, might be duplicates between arrays, or within a single array
 		nonPlusCommentUsernames = (row.commentBreakdown or {}).nonPlus or []
 		plusCommentUsernames = (row.commentBreakdown or {}).plus or []
 		plusReactionUsernames = (row.reactionBreakdown or {}).plus or []
 
+		# ensure author of the issue is considered a comment participant
+		nonPlusCommentUsernames.unshift(row.username)
+
+		# hashes
 		nonPlusCommentHash = @buildUsernameHash(nonPlusCommentUsernames)
 		plusCommentHash = @buildUsernameHash(plusCommentUsernames)
 		plusReactionHash = @buildUsernameHash(plusReactionUsernames)
-
-		# ensure author of the issue is considered a comment participant
-		if not nonPlusCommentHash[row.username] and not plusCommentHash[row.username]
-			nonPlusCommentUsernames.unshift(row.username) # add to beginning
-			nonPlusCommentHash[row.username] = true
-
 		combinedHash = _.assign({}, nonPlusCommentHash, plusCommentHash, plusReactionHash)
-		usernames = _.keys(combinedHash)
 
+		# username lists
+		allUsernames = _.keys(combinedHash)
+		participantUsernames = _.keys(_.assign({}, nonPlusCommentHash, plusCommentHash))
+		plusCommentUsernames = _.keys(plusCommentHash) # reset original value
+		plusReactionUsernames = _.keys(plusReactionHash) # reset original value
+
+		# weights
 		participantWeight = @repoConfig.participantWeight
 		plusCommentWeight = @repoConfig.plusCommentWeight
 		plusReactionWeight = @repoConfig.plusReactionWeight
 
+		# scores
 		participantScore = 0
 		plusScore = 0
 		totalScore = 0
 
-		for username in usernames
+		for username in allUsernames
 			participantScore += Math.max(
 				(if nonPlusCommentHash[username] then 1 else 0) * participantWeight
 				(if plusCommentHash[username] then 1 else 0) * plusCommentWeight
@@ -101,10 +108,10 @@ class RowCollection
 			)
 
 		{
-			participants: nonPlusCommentUsernames.length + plusCommentUsernames.length
-			participantScore: participantScore
+			participants: participantUsernames.length
 			plusComments: plusCommentUsernames.length
 			plusReactions: plusReactionUsernames.length
+			participantScore: participantScore
 			plusScore: plusScore
 			score: totalScore
 		}
@@ -115,7 +122,8 @@ class RowCollection
 	buildUsernameHash: (usernameArray) ->
 		usernameHash = {}
 		for username in usernameArray
-			usernameHash[username] = true # TODO: filter with blacklist
+			if not @repoConfig.excludeUserHash[username]
+				usernameHash[username] = true
 		usernameHash
 
 	###

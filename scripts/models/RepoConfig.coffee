@@ -43,6 +43,9 @@ class RepoConfig
 	parseComments: null
 	parseReactions: null
 
+	# filtering comments
+	excludeUserHash: null
+
 	# weights for scores
 	participantWeight: null
 	plusCommentWeight: null
@@ -79,6 +82,10 @@ class RepoConfig
 		@parseIssue = @raw.parseIssue or null
 		@parseComments = @raw.parseComments or null
 		@parseReactions = @raw.parseReactions or null
+
+		@excludeUserHash = {}
+		for username in @raw.excludeUsers or []
+			@excludeUserHash[username] = true
 
 		@participantWeight = @raw.participantWeight ? 1.0
 		@plusCommentWeight = @raw.plusCommentWeight ? 1.0

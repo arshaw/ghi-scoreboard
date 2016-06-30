@@ -4,6 +4,8 @@ module.exports = {
 	aggregateComments: true,
 	aggregateReactions: true,
 
+	excludeUsers: [ 'arshaw' ], // did all the importing
+
 	logo: {
 		url: "http://fullcalendar.io/images/logo.svg",
 		width: 29,
