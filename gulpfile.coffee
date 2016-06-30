@@ -1,25 +1,28 @@
+fs = require('fs')
 _ = require('lodash')
 gulp = require('gulp')
 gutil = require('gulp-util')
 rename = require('gulp-rename')
 sourcemaps = require('gulp-sourcemaps')
+transform = require('gulp-transform')
 source = require('vinyl-source-stream')
 buffer = require('vinyl-buffer')
 browserify = require('browserify')
 coffeeify = require('coffeeify')
 watchify = require('watchify')
+Handlebars = require('handlebars')
 
 
 gulp.task('default', [ 'build' ])
 
-gulp.task('build', [ 'buildScripts', 'copy' ])
+gulp.task('build', [ 'html', 'scripts', 'copy' ])
 
-gulp.task('watch', [ 'build', 'watchScripts', 'watchCss' ])
+gulp.task('watch', [ 'build', 'watchHtml', 'watchScripts', 'watchCss' ])
 
 
 # Static Files
 
-gulp.task('copy', [ 'copyJs', 'copyCss', 'copyFonts', 'copyHtml' ])
+gulp.task('copy', [ 'copyJs', 'copyCss', 'copyFonts' ])
 
 gulp.task 'copyJs', ->
 	gulp.src([
@@ -32,10 +35,21 @@ gulp.task 'copyFonts', ->
 	gulp.src('./node_modules/bootstrap/dist/fonts/*')
 		.pipe gulp.dest('./out/fonts/')
 
-gulp.task 'copyHtml', ->
+
+# HTML index file
+
+gulp.task 'html', ->
 	gulp.src('./templates/index.tpl')
+		.pipe transform (tpl) ->
+				Handlebars.compile(tpl)({
+					initialTitle: 'suuup'
+				})
+			, { encoding: 'utf8' } # needed to get a string buffer
 		.pipe rename('index.html')
 		.pipe gulp.dest('./out/')
+
+gulp.task 'watchHtml', ->
+	gulp.watch('./templates/index.tpl', [ 'html' ])
 
 
 # Styles
@@ -55,7 +69,7 @@ gulp.task 'watchCss', ->
 # https://github.com/gulpjs/gulp/blob/master/docs/recipes/browserify-transforms.md
 # https://github.com/gulpjs/gulp/blob/master/docs/recipes/fast-browserify-builds-with-watchify.md
 
-gulp.task 'buildScripts', ->
+gulp.task 'scripts', ->
 	bundleScripts()
 
 gulp.task 'watchScripts', ->

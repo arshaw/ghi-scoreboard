@@ -27,6 +27,7 @@
     "gulp": "^3.9.1",
     "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^1.6.0",
+    "gulp-transform": "^1.0.8",
     "gulp-util": "^3.0.7",
     "handlebars": "^4.0.5",
     "hash-router": "^0.4.0",
