@@ -42,6 +42,13 @@ class RepoConfig
 	parseIssue: null
 	parseComments: null
 	parseReactions: null
+
+	# weights for scores
+	participantWeight: null
+	plusCommentWeight: null
+	plusReactionWeight: null
+
+	# for table display
 	displayValue: null
 
 	constructor: (input, fallback={}) ->
@@ -72,6 +79,11 @@ class RepoConfig
 		@parseIssue = @raw.parseIssue or null
 		@parseComments = @raw.parseComments or null
 		@parseReactions = @raw.parseReactions or null
+
+		@participantWeight = @raw.participantWeight ? 1.0
+		@plusCommentWeight = @raw.plusCommentWeight ? 1.0
+		@plusReactionWeight = @raw.plusReactionWeight ? 1.0
+
 		@displayValue = @raw.displayValue or null
 
 
@@ -79,31 +91,36 @@ class RepoConfig
 # --------------------------------------------------------------------------------------------------
 
 DEFAULT_COLUMN_LIST = [
-	'comments'
-	'pluses'
+	'plusReactions'
 ]
 
 STOCK_COLUMNS = [ {
-	name: 'comments'
-	icon: 'comment'
-	caption: 'comments'
-	prop: 'comments'
-}, {
-	name: 'pluses'
+	name: 'plusReactions'
+	prop: 'plusReactions'
 	icon: 'thumbs-up'
-	caption: '+1'
-	prop: 'pluses'
+}, {
+	name: 'plusComments'
+	prop: 'plusComments'
+	icon: 'thumbs-up'
+	title: 'comments'
+}, {
+	name: 'plusScore'
+	prop: 'plusScore'
+	icon: 'thumbs-up'
+	title: 'score'
 }, {
 	name: 'participants'
+	prop: 'participants'
 	icon: 'user'
-	caption: 'participants'
-	prop: 'participants' # cache required
 }, {
-	name: 'commentPluses'
-	icon: 'thumbs-up'
-	title: '*'
-	caption: '+1 from comments'
-	prop: 'commentPluses' # cache required
+	name: 'participantScore'
+	prop: 'participantScore'
+	icon: 'user'
+	title: 'score'
+}, {
+	name: 'score'
+	prop: 'score'
+	title: 'Score'
 } ]
 
 STOCK_COLUMN_HASH = _.keyBy(STOCK_COLUMNS, 'name')

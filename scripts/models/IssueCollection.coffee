@@ -22,6 +22,7 @@ class IssueCollection
 					number: ghIssue.number
 					url: ghIssue.html_url
 					title: ghIssue.title
+					username: ghIssue.user.login
 					comments: ghIssue.comments
 					plusReactions: ghIssue.reactions['+1']
 					labelNames: (ghLabel.name for ghLabel in ghIssue.labels)

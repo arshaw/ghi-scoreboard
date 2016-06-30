@@ -39,19 +39,9 @@ module.exports = {
 			},
 
 			columns: [
-				//'comments',
-				//{
-				//	name: 'stars',
-				//	icon: 'star',
-				//	caption: 'stars from google code',
-				//	prop: 'legacyStars'
-				//},
-				//'commentPluses',
-				//'pluses',
 				{
 					name: 'score',
 					title: 'Score',
-					//icon: 'certificate',
 					caption: 'computed score',
 					value: function(issue) {
 						return issue.legacyStars * 0.75 +
@@ -66,21 +56,8 @@ module.exports = {
 		{
 			user: 'fullcalendar',
 			name: 'fullcalendar-scheduler',
-
 			columns: [
-				//'comments',
-				//'participants',
-				//'commentPluses',
-				//'pluses',
-				{
-					name: 'score',
-					title: 'Score',
-					//icon: 'certificate',
-					caption: 'computed score',
-					value: function(issue) {
-						return issue.score;
-					}
-				}
+				'score'
 			]
 		}
 	],

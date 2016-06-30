@@ -51,7 +51,7 @@ class CommentSummary
 		if plusUsernames.length
 			out.plus = plusUsernames
 		if nonPlusUsernames.length
-			out.nonplus = nonPlusUsernames
+			out.nonPlus = nonPlusUsernames
 		out
 
 	###

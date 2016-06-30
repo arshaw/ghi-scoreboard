@@ -36,6 +36,9 @@ class RowCollection
 			if reactionBreakdown
 				row.reactionBreakdown = reactionBreakdown
 
+			# precompute some stats
+			_.extend(row, @computeStockValues(row))
+
 			row.valueHash = @computeValueHash(row)
 			row
 
@@ -44,7 +47,7 @@ class RowCollection
 	Each corresponds to a column in the dashboard UI.
 	###
 	computeValueHash: (issue) ->
-		hash = @computeStockValues(issue)
+		hash = {}
 
 		for column in @repoConfig.columns
 			hash[column.name] =
@@ -57,30 +60,52 @@ class RowCollection
 	###
 	Compute import stock cell values available to the row. Returns a new object.
 	###
-	computeStockValues: (issue) ->
-		nonPlusCommentUsernames = (issue.commentBreakdown or {}).nonPlus or []
-		plusCommentUsernames = (issue.commentBreakdown or {}).plus or []
-		plusReactionUsernames = (issue.reactionBreakdown or {}).plus or []
+	computeStockValues: (row) ->
+		nonPlusCommentUsernames = (row.commentBreakdown or {}).nonPlus or []
+		plusCommentUsernames = (row.commentBreakdown or {}).plus or []
+		plusReactionUsernames = (row.reactionBreakdown or {}).plus or []
 
 		nonPlusCommentHash = @buildUsernameHash(nonPlusCommentUsernames)
 		plusCommentHash = @buildUsernameHash(plusCommentUsernames)
 		plusReactionHash = @buildUsernameHash(plusReactionUsernames)
 
+		# ensure author of the issue is considered a comment participant
+		if not nonPlusCommentHash[row.username] and not plusCommentHash[row.username]
+			nonPlusCommentUsernames.unshift(row.username) # add to beginning
+			nonPlusCommentHash[row.username] = true
+
 		combinedHash = _.assign({}, nonPlusCommentHash, plusCommentHash, plusReactionHash)
 		usernames = _.keys(combinedHash)
+
+		participantWeight = @repoConfig.participantWeight
+		plusCommentWeight = @repoConfig.plusCommentWeight
+		plusReactionWeight = @repoConfig.plusReactionWeight
+
+		participantScore = 0
+		plusScore = 0
 		totalScore = 0
 
 		for username in usernames
+			participantScore += Math.max(
+				(if nonPlusCommentHash[username] then 1 else 0) * participantWeight
+				(if plusCommentHash[username] then 1 else 0) * plusCommentWeight
+			)
+			plusScore += Math.max(
+				(if plusCommentHash[username] then 1 else 0) * plusCommentWeight
+				(if plusReactionHash[username] then 1 else 0) * plusReactionWeight
+			)
 			totalScore += Math.max(
-				(if nonPlusCommentHash[username] then 1 else 0) * 0.8 # TODO: participantWeight
-				(if plusCommentHash[username] then 1 else 0) * 0.9 # TODO: commentPlusWeight
-				(if plusReactionHash[username] then 1 else 0) * 1.0 # TODO: strictPlusWeight
+				(if nonPlusCommentHash[username] then 1 else 0) * participantWeight
+				(if plusCommentHash[username] then 1 else 0) * plusCommentWeight
+				(if plusReactionHash[username] then 1 else 0) * plusReactionWeight
 			)
 
 		{
 			participants: nonPlusCommentUsernames.length + plusCommentUsernames.length
+			participantScore: participantScore
 			plusComments: plusCommentUsernames.length
 			plusReactions: plusReactionUsernames.length
+			plusScore: plusScore
 			score: totalScore
 		}
 

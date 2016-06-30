@@ -2,7 +2,7 @@
 $ = require('jquery')
 _ = require('lodash')
 Cookie = require('js-cookie')
-RowCollection = require('./RowCollection')
+RowCollection = require('../models/RowCollection')
 
 # TODO: also requires Bootstrap JS
 
@@ -253,6 +253,8 @@ class RepoView
 		for column in repoConfig.columns
 
 			value = valueHash[column.name]
+
+			# TODO: only if number. rename formatNumber
 			if displayValue
 				value = displayValue(value)
 

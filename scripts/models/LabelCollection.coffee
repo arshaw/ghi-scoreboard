@@ -106,10 +106,10 @@ class Label
 		'https://github.com/' + @repoConfig.user.name + '/' + @repoConfig.name + '/issues?q=' +
 			encodeURIComponent(
 				'is:open is:issue label:' +
-				if ghLabel.name.match(/\s/) # any whitespace?
-					'"' + ghLabel.name + '"'
+				if @name.match(/\s/) # any whitespace?
+					'"' + @name + '"'
 				else
-					ghLabel.name
+					@name
 			)
 
 	###
