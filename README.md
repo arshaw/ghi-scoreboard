@@ -101,17 +101,17 @@ To pre-fetch data, certain flags must be toggled on. The `./bin/aggregate` scrip
 Hooks are available to store additional data received by the pre-fetched Github API data:
 
 
-##### processIssue
+##### parseIssue
 
 `function(ghIssue, issue)`. Given the raw object returned by the Github API, you may compute and assign additional properties to the given `issue` object.
 
 
-##### processComments
+##### parseComments
 
 `function(ghComments, issue)`. Given the raw list of Github API comments for a particular issue, you may compute and assign additional properties to the given `issue` object.
 
 
-##### processReactions
+##### parseReactions
 
 `function(ghReactions, issue)`. Given the raw list of Github API reactions for a particular issue, you may compute and assign additional properties to the given `issue` object.
 
@@ -167,7 +167,7 @@ Number of unique users who have given a :+1: reaction to the issue. Only reactio
 
 Requires `aggregateComments:true`
 
-Number of *unique* users who have written a comment consisting solely of "+1" or :+1:.
+Number of *unique* users who have written a comment with a "+1" or :+1: in it.
 
 
 ##### plusScore
@@ -229,7 +229,7 @@ Text heading above the column data.
 
 ##### value
 
-`function(issue)`. Programmatically generates a value. Given a barebones `issue` object that has tacked-on fields from `processIssue`, `processComment`, or `processReactions`. Must return a value to be used.
+`function(issue)`. Programmatically generates a value. Given a barebones `issue` object that has tacked-on fields from `parseIssue`, `parseComments`, or `parseReactions`. Must return a value to be used.
 
 
 ##### icon
@@ -251,7 +251,7 @@ Text heading above the column data.
 
 #### sortBy
 
-`string`. Determines the ordering of rows within each table. Is a column name, a barebones `issue` property name, or a custom property from one of the `process*` functions.
+`string`. Determines the ordering of rows within each table. Is a column name, a barebones `issue` property name, or a custom property from one of the `parse*` functions.
 
 Defaults to the rightmost column.
 
@@ -270,7 +270,7 @@ Many of the standard column types are compound weighted values, unique by user. 
 ### Number Display
 
 
-#### formatCellNumber
+#### formatNumber
 
 `function(number)`. Affects how all numbers are displayed within the table. Given a number, should return a string.
 
