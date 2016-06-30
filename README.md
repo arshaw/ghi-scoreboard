@@ -103,17 +103,17 @@ Hooks are available to store additional data received by the pre-fetched Github 
 
 ##### processIssue
 
-`function(issue, ghIssue)`. Given the raw object returned by the Github API, you may compute and assign additional properties to the given `issue` object.
+`function(ghIssue, issue)`. Given the raw object returned by the Github API, you may compute and assign additional properties to the given `issue` object.
 
 
 ##### processComments
 
-`function(issue, ghComments)`. Given the raw list of Github API comments for a particular issue, you may compute and assign additional properties to the given `issue` object.
+`function(ghComments, issue)`. Given the raw list of Github API comments for a particular issue, you may compute and assign additional properties to the given `issue` object.
 
 
 ##### processReactions
 
-`function(issue, ghReactions)`. Given the raw list of Github API reactions for a particular issue, you may compute and assign additional properties to the given `issue` object.
+`function(ghReactions, issue)`. Given the raw list of Github API reactions for a particular issue, you may compute and assign additional properties to the given `issue` object.
 
 
 #### Excluding Users
