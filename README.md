@@ -237,16 +237,6 @@ Text heading above the column data.
 `string`. Icon to display in the table heading. A value like `'star'` will result in the [Glyphicon](http://glyphicons.com/) `glyphicon-star`.
 
 
-##### labelCaption
-
-`String`. A caption string to show on mouseover of the label.
-
-
-##### caption
-
-`function(issue)`. Returns a label string to show on mouseover of the cell.
-
-
 ### Column Sorting
 
 #### sortBy

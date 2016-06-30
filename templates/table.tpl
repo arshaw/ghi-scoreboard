@@ -5,14 +5,7 @@
 			{{#columns}}
 				<th class="issue-{{name}} {{#isSorted}}issue-sorted{{/isSorted}}">
 					{{#icon}}
-						<span class="glyphicon glyphicon-{{.}}"
-							{{#if ../caption}}
-								title="{{../caption}}"
-							{{/if}}
-							data-toggle="tooltip"
-							data-placement="bottom"
-						>
-						</span>
+						<span class="glyphicon glyphicon-{{.}}"></span>
 					{{/icon}}
 					{{title}}
 				</th>
