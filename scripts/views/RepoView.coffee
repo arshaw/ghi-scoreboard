@@ -36,7 +36,7 @@ class RepoView
 
 		# dynamically adjust title of page
 		repoConfig = @repoModel.repoConfig
-		document.title = repoConfig.name + ' · Issue Dashboard'
+		document.title = 'Issues · ' + repoConfig.name
 
 		@$el.text('Loading...')
 

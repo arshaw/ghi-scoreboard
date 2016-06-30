@@ -4,6 +4,8 @@ module.exports = {
 	aggregateComments: true,
 	aggregateReactions: true,
 
+	initialPageTitle: 'FullCalendar Project',
+
 	excludeUsers: [ 'arshaw' ], // did all the importing
 
 	logo: {

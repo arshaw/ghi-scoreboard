@@ -12,6 +12,9 @@ coffeeify = require('coffeeify')
 watchify = require('watchify')
 Handlebars = require('handlebars')
 
+# TODO: handle dynamic updates
+config = require('./conf/conf.js')
+
 
 gulp.task('default', [ 'build' ])
 
@@ -42,7 +45,7 @@ gulp.task 'html', ->
 	gulp.src('./templates/index.tpl')
 		.pipe transform (tpl) ->
 				Handlebars.compile(tpl)({
-					initialTitle: 'suuup'
+					initialPageTitle: config.initialPageTitle
 				})
 			, { encoding: 'utf8' } # needed to get a string buffer
 		.pipe rename('index.html')
