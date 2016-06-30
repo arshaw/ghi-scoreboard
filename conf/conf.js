@@ -29,6 +29,9 @@ module.exports = {
 		},
 	],
 
+	participantWeight: 0.8,
+	plusCommentWeight: 0.9,
+
 	repos: [
 		{
 			user: 'fullcalendar',
