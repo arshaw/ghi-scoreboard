@@ -49,7 +49,7 @@ class RepoConfig
 	plusReactionWeight: null
 
 	# for table display
-	displayValue: null
+	formatNumber: null
 
 	constructor: (input, fallback={}) ->
 		@raw = _.assign({}, input, fallback)
@@ -84,8 +84,16 @@ class RepoConfig
 		@plusCommentWeight = @raw.plusCommentWeight ? 1.0
 		@plusReactionWeight = @raw.plusReactionWeight ? 1.0
 
-		@displayValue = @raw.displayValue or null
+		@formatNumber = @raw.formatNumber or stockFormatNumber
 
+###
+Rounds numbers greater than 1. Displays 1 decimal point if a fraction.
+###
+stockFormatNumber = (n) ->
+	if n > 0 and n < 1
+		n.toFixed(1)
+	else
+		Math.round(n)
 
 # Column Normalization
 # --------------------------------------------------------------------------------------------------

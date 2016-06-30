@@ -60,12 +60,5 @@ module.exports = {
 				'score'
 			]
 		}
-	],
-
-	displayValue: function(val) {
-		if (val && val < 1) {
-			return val.toFixed(1);
-		}
-		return Math.round(val);
-	}
+	]
 };

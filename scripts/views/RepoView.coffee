@@ -247,16 +247,15 @@ class RepoView
 	###
 	getCellsForTable: (valueHash) ->
 		repoConfig = @repoModel.repoConfig
-		displayValue = repoConfig.displayValue
+		formatNumber = repoConfig.formatNumber
 		sortBy = repoConfig.sortBy
 
 		for column in repoConfig.columns
 
 			value = valueHash[column.name]
 
-			# TODO: only if number. rename formatNumber
-			if displayValue
-				value = displayValue(value)
+			if typeof value == 'number' and formatNumber
+				value = formatNumber(value)
 
 			{
 				value: value
