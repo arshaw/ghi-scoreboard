@@ -5,6 +5,7 @@ module.exports = {
 	aggregateReactions: true,
 
 	initialPageTitle: 'FullCalendar Project',
+	metaDescription: 'Issue scoreboard for the FullCalendar Project',
 
 	excludeUsers: [ 'arshaw' ], // did all the importing
 

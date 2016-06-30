@@ -44,9 +44,7 @@ gulp.task 'copyFonts', ->
 gulp.task 'html', ->
 	gulp.src('./templates/index.tpl')
 		.pipe transform (tpl) ->
-				Handlebars.compile(tpl)({
-					initialPageTitle: config.initialPageTitle
-				})
+				Handlebars.compile(tpl)(config) # all config vars
 			, { encoding: 'utf8' } # needed to get a string buffer
 		.pipe rename('index.html')
 		.pipe gulp.dest('./out/')
