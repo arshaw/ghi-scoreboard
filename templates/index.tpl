@@ -15,9 +15,6 @@
 	<script src="js/dashboard.js"></script>
 </head>
 <body>
-
 	<div id="header"></div>
-	<div id="stats"></div>
-
 </body>
 </html>

@@ -36,7 +36,7 @@ class DashboardView
 		@headerView.render()
 
 		@repoView = new RepoView(@dashboardModel.currentRepoModel)
-		@repoView.$el = $('#stats')
+		@repoView.$el = $('<div id="stats">').appendTo('body')
 		@repoView.render()
 
 		@isRendered = true
@@ -47,6 +47,7 @@ class DashboardView
 	destroy: ->
 		@headerView.destroy()
 		@repoView.destroy()
+		@repoView.$el.remove()
 
 # expose
 module.exports = DashboardView
