@@ -8,7 +8,7 @@ Create a file at `./conf/auth.js` with the given format:
 ```js
 module.exports = {
 	username: 'arshaw', // github username
-	accessToken: 'asdfasdfasdfasdf' // personal access token
+	accessToken: 'xxx' // personal access token
 };
 ```
 
@@ -206,7 +206,7 @@ Custom columns that programatically yield values can be defined. The format is a
 columns: [
 	{
 		name: 'mycolumn',
-		label: 'My Column',
+		title: 'My Column',
 		value: function(issue) {
 			retun issue.customField1 + issue.customField2;
 		}
@@ -222,7 +222,7 @@ Custom column definitions can contain the following keys:
 Unique string name for the column. Important if this is a `sortBy` column.
 
 
-##### label
+##### title
 
 Text heading above the column data.
 
