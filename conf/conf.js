@@ -55,14 +55,16 @@ module.exports = {
 								issue.score
 							);
 					}
-				}
+				},
+				'titleAndLabels'
 			]
 		},
 		{
 			user: 'fullcalendar',
 			name: 'fullcalendar-scheduler',
 			columns: [
-				'score'
+				'score',
+				'titleAndLabels'
 			]
 		}
 	]

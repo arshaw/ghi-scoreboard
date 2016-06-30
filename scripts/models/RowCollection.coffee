@@ -50,11 +50,12 @@ class RowCollection
 		hash = {}
 
 		for column in @repoConfig.columns
-			hash[column.name] =
-				if column.prop
-					issue[column.prop] # easy property
-				else
-					column.value(issue) # function that computes the values
+			if not column.isSpecial
+				hash[column.name] =
+					if column.prop
+						issue[column.prop] # easy property
+					else
+						column.value(issue) # function that computes the values
 		hash
 
 	###

@@ -10,6 +10,8 @@ tabsTpl = require('../../templates/tabs.tpl')
 splitpaneTpl = require('../../templates/splitpane.tpl')
 labelTableTpl = require('../../templates/label-table.tpl')
 tableTpl = require('../../templates/table.tpl')
+issueTitleTpl = require('../../templates/issue-title.tpl')
+issueNumberTpl = require('../../templates/issue-number.tpl')
 rateLimitTpl = require('../../templates/rate-limit.tpl')
 
 ###
@@ -226,9 +228,47 @@ class RepoView
 		# returns a new transformed array of rows
 		for row in rows
 			_.assign({}, row, {
-				labels: @getLabelsForTable(row.labelNames, hiddenLabelHash)
-				cells: @getCellsForTable(row.valueHash)
+				cells: @getCellsForTable(row, hiddenLabelHash)
 			})
+
+	###
+	Gets an array of cell object used for HTML template rendering.
+	Given a hash of cell values for an issue row.
+	Infuses the 'isSorted' variable.
+	###
+	getCellsForTable: (row, hiddenLabelHash) ->
+		repoConfig = @repoModel.repoConfig
+		formatNumber = repoConfig.formatNumber
+		sortBy = repoConfig.sortBy
+
+		for column in repoConfig.columns
+
+			value = ''
+
+			if column.isSpecial
+
+				if column.name == 'number'
+					value = issueNumberTpl(row)
+
+				else if column.name == 'title'
+					value = issueTitleTpl
+						title: row.title
+
+				else if column.name == 'titleAndLabels'
+					value = issueTitleTpl
+						title: row.title
+						labels: @getLabelsForTable(row.labelNames, hiddenLabelHash)
+			else
+				value = row.valueHash[column.name]
+
+			if typeof value == 'number' and formatNumber
+				value = formatNumber(value)
+
+			{
+				name: column.name
+				isSorted: column.name == sortBy
+				valueHtml: value
+			}
 
 	###
 	Gets an array of label objects used for HTML template rendering.
@@ -239,28 +279,6 @@ class RepoView
 		(@labelCollection.getByName(labelName) \
 			for labelName in labelNames \
 				when not hiddenLabelHash[labelName])
-
-	###
-	Gets an array of cell object used for HTML template rendering.
-	Given a hash of cell values for an issue row.
-	Infuses the 'isSorted' variable.
-	###
-	getCellsForTable: (valueHash) ->
-		repoConfig = @repoModel.repoConfig
-		formatNumber = repoConfig.formatNumber
-		sortBy = repoConfig.sortBy
-
-		for column in repoConfig.columns
-
-			value = valueHash[column.name]
-
-			if typeof value == 'number' and formatNumber
-				value = formatNumber(value)
-
-			{
-				value: value
-				isSorted: column.name == sortBy
-			}
 
 # expose
 module.exports = RepoView

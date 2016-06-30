@@ -3,7 +3,7 @@
 	<thead>
 		<tr>
 			{{#columns}}
-				<th class="issue-value{{#isSorted}} issue-sorted{{/isSorted}}">
+				<th class="issue-{{name}} {{#isSorted}}issue-sorted{{/isSorted}}">
 					{{#icon}}
 						<span class="glyphicon glyphicon-{{.}}"
 							{{#if ../caption}}
@@ -17,28 +17,16 @@
 					{{title}}
 				</th>
 			{{/columns}}
-			<th colspan="2">
-			</th>
 		</tr>
 	</thead>
 	<tbody>
 		{{#rows}}
 			<tr data-url="{{url}}" title="#{{number}}">
 				{{#cells}}
-					<td class="issue-value{{#isSorted}} issue-sorted{{/isSorted}}">
-						{{value}}
+					<td class="issue-{{name}} {{#isSorted}} issue-sorted{{/isSorted}}">
+						{{{valueHtml}}}
 					</td>
 				{{/cells}}
-				<td>
-					{{title}}
-					<span class="issue-labels">
-						{{#labels}}
-							<a href="{{getUrl}}" target="_blank" class="label"
-								style="background-color:{{getBgColor}};color:{{getTextColor}}"
-							>{{name}}</a>
-						{{/labels}}
-					</span>
-				</td>
 			</tr>
 		{{/rows}}
 	</tbody>

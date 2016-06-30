@@ -15,17 +15,18 @@
 	cursor: pointer;
 }
 
-.issue-value {
-	width: 4%;
-	white-space: nowrap;
+.issue-table th,
+.issue-table td {
+	width: 1%;
+}
+
+.issue-table .issue-title,
+.issue-table .issue-titleAndLabels {
+	width: auto;
 }
 
 .issue-labels {
 	white-space: nowrap;
-}
-
-td.issue-value:not(.issue-sorted) {
-	color: #aaa;
 }
 
 .issue-sorted {

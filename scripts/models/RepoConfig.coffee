@@ -73,7 +73,12 @@ class RepoConfig
 			else
 				fallback
 		@columns = normalizeColumns(input.columns or fallback.columns)
-		@sortBy = @raw.sortBy or @columns[@columns.length - 1].name
+
+		@sortBy = @raw.sortBy
+		if not @sortBy # needs a default?
+			for column in @columns
+				if not column.isSpecial
+					@sortBy = column.name # rightmost non-special column
 
 		@aggregateIssues = @raw.aggregateIssues ? false
 		@aggregateComments = @raw.aggregateComments ? false
@@ -106,10 +111,21 @@ stockFormatNumber = (n) ->
 # --------------------------------------------------------------------------------------------------
 
 DEFAULT_COLUMN_LIST = [
+	'number'
+	'titleAndLabels'
 	'plusReactions'
 ]
 
 STOCK_COLUMNS = [ {
+	name: 'number'
+	isSpecial: true
+}, {
+	name: 'title'
+	isSpecial: true
+}, {
+	name: 'titleAndLabels'
+	isSpecial: true
+}, {
 	name: 'plusReactions'
 	prop: 'plusReactions'
 	icon: 'thumbs-up'
