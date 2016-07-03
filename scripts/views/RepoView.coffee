@@ -114,7 +114,13 @@ class RepoView
 	###
 	renderHtml: (rowCollection) ->
 		res = @renderUi(@repoModel.repoConfig.raw, rowCollection)
-		res.html
+		html = res.html
+
+		if @repoModel.cacheDate
+			html += '<hr />' +
+				'<div class="footer">Last update ' + @repoModel.cacheDate + '</div>'
+
+		html
 
 	###
 	Renders HTML for a component of the dashboard, defined by the `ui` config object.

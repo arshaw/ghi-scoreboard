@@ -22,6 +22,7 @@ class RepoModel
 	commentsPromise: null
 	reactionsPromise: null
 	cachePromise: null
+	cacheDate: null
 
 	###
 	Given a RepoConfig
@@ -127,6 +128,8 @@ class RepoModel
 		$.ajax
 			url: CACHE_PATH + '/' + @repoConfig.name + '.json'
 			dataType: 'json'
+		.done (cacheData) =>
+			@cacheDate = new Date(cacheData.start)
 
 	###
 	Fetches a LabelCollection from Github API. Returns a promise.
