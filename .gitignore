@@ -4,7 +4,8 @@ node_modules
 npm-debug.log
 
 # config files
-conf
+conf/auth.js
+conf/conf.js
 
 # generated files
 out
