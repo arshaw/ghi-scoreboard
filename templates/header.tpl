@@ -35,7 +35,7 @@
 
 			<p class="navbar-text navbar-right">
 				Created with
-				<a href="https://github.com/arshaw/ghi-dashboard" target="_blank" class="navbar-link">
+				<a href="https://github.com/arshaw/ghi-scoreboard" target="_blank" class="navbar-link">
 					ghi-scoreboard
 				</a>
 			</p>

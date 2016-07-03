@@ -1,4 +1,49 @@
 
+# Github Issues Scoreboard
+
+Display your Github repo's issues by demand (:+1:) with an attractive configurable index page.
+
+Provides robust ranking utilities. For example, you can sort issues by a combination of reactions, participants, and comments that contain "+1".
+
+Examples:
+
+- http://fullcalendar.io/issues/ ([see config](./conf/sample.fullcalendar.conf.js))
+- http://arshaw.com/moment-scoreboard ([see config](./conf/sample.moment.conf.js))
+
+
+## Installation
+
+First, clone the ghi-scoreboard repo:
+
+```
+git clone https://github.com/arshaw/ghi-scoreboard
+cd ghi-scoreboard
+npm install
+```
+
+Then, configure your [Main Config](#main-config) with information about your repo and what you want your scoreboard to look like.
+
+If you plan to do [comment/reaction aggregation](#aggregating-data), also configure your [Auth Config](#auth-config).
+
+Then, build your scoreboard:
+
+```
+gulp
+```
+
+The `./out/` directory will be populated with all the necessary web files. Open `./out/index.html` in a web browser. Make sure this is done from a web server and not the `file:///` protocol.
+
+If you'd like to make your scoreboard public, make the `./out/` directory the web root.
+
+If you want to do [comment/reaction aggregation](#aggregating-data), run the following script:
+
+```
+./bin/aggregate
+```
+
+If you want this to periodically update, call the `aggregate` script from a cron job.
+
+
 ## Auth Config
 
 If you plan to use any of the aggregation functionality, allowing the backend `./bin/aggregate` script to execute, you'll need to set up authentication to Github's API.
