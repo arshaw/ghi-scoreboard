@@ -1,4 +1,5 @@
 fs = require('fs')
+del = require('del')
 _ = require('lodash')
 gulp = require('gulp')
 gutil = require('gulp-util')
@@ -108,3 +109,9 @@ bundleScripts = (isWatch=false, shouldUglify=false) ->
 
 	bundler.on('log', gutil.log) # output build logs to terminal
 	bundle()
+
+
+# Clean
+
+gulp.task 'clean', ->
+	del('./out/**')
