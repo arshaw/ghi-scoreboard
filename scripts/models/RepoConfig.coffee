@@ -119,6 +119,7 @@ DEFAULT_COLUMN_LIST = [
 STOCK_COLUMNS = [ {
 	name: 'number'
 	isSpecial: true
+	title: 'Issues'
 }, {
 	name: 'title'
 	isSpecial: true
