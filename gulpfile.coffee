@@ -31,8 +31,8 @@ gulp.task('copy', [ 'copyJs', 'copyCss', 'copyFonts' ])
 
 gulp.task 'copyJs', ->
 	gulp.src([
-		'./node_modules/jquery/dist/jquery.js'
-		'./node_modules/bootstrap/dist/js/bootstrap.js'
+		'./node_modules/jquery/dist/jquery.min.js'
+		'./node_modules/bootstrap/dist/js/bootstrap.min.js'
 		])
 		.pipe gulp.dest('./out/js/')
 
