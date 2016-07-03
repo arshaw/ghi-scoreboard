@@ -5,6 +5,7 @@ gutil = require('gulp-util')
 rename = require('gulp-rename')
 sourcemaps = require('gulp-sourcemaps')
 transform = require('gulp-transform')
+uglify = require('gulp-uglify')
 source = require('vinyl-source-stream')
 buffer = require('vinyl-buffer')
 browserify = require('browserify')
@@ -71,12 +72,12 @@ gulp.task 'watchCss', ->
 # https://github.com/gulpjs/gulp/blob/master/docs/recipes/fast-browserify-builds-with-watchify.md
 
 gulp.task 'scripts', ->
-	bundleScripts()
+	bundleScripts(false, true)
 
 gulp.task 'watchScripts', ->
-	bundleScripts(true)
+	bundleScripts(true, false)
 
-bundleScripts = (isWatch=false) ->
+bundleScripts = (isWatch=false, shouldUglify=false) ->
 	options = {
 		entries: './scripts/ui.coffee'
 		debug: true
@@ -85,11 +86,16 @@ bundleScripts = (isWatch=false) ->
 	}
 
 	bundle = ->
-		bundler.bundle()
+		stream = bundler.bundle()
 			.on('error', gutil.log.bind(gutil, 'Browserify Error'))
 			.pipe source('dashboard.js')
 			.pipe buffer()
 			.pipe sourcemaps.init({ loadMaps: true })
+
+		if shouldUglify
+			stream = stream.pipe(uglify())
+
+		stream
 			.pipe sourcemaps.write('./') # where to write sourcemaps, relative to output JS
 			.pipe gulp.dest('./out/js/')
 
