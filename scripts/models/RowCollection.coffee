@@ -108,10 +108,10 @@ class RowCollection
 				(if plusReactionHash[username] then 1 else 0) * plusReactionWeight
 			)
 
+		# `plusReactions` is already in the row. don't overwrite
 		{
 			participants: participantUsernames.length
 			plusComments: plusCommentUsernames.length
-			plusReactions: plusReactionUsernames.length
 			participantScore: participantScore
 			plusScore: plusScore
 			score: totalScore
