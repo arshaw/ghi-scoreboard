@@ -1,20 +1,20 @@
 {
-  "name": "ghi-dashboard",
+  "name": "ghi-scoreboard",
   "version": "0.0.0",
-  "description": "Github Issues Dashboard Generator",
+  "description": "Github Issues Scoreboard Generator",
   "main": "out/js/dashboard.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/arshaw/ghi-dashboard.git"
+    "url": "git+https://github.com/arshaw/ghi-scoreboard.git"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/arshaw/ghi-dashboard/issues"
+    "url": "https://github.com/arshaw/ghi-scoreboard/issues"
   },
-  "homepage": "https://github.com/arshaw/ghi-dashboard",
+  "homepage": "https://github.com/arshaw/ghi-scoreboard",
   "dependencies": {
     "async": "^1.5.2",
     "bootstrap": "^3.3.6",
