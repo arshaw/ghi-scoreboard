@@ -10,7 +10,7 @@ module.exports = {
 	excludeUsers: [ 'arshaw' ], // did all the importing
 
 	logo: {
-		url: "//fullcalendar.io/images/logo.svg",
+		url: 'https://fullcalendar.io/assets/images/logo.svg',
 		width: 29,
 		height: 24
 	},
