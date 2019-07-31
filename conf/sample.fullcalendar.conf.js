@@ -11,8 +11,8 @@ module.exports = {
 
 	logo: {
 		url: 'https://fullcalendar.io/assets-more/images/logo-64x64.png',
-		width: 32,
-		height: 32
+		width: 24,
+		height: 24
 	},
 
 	tabs: [
