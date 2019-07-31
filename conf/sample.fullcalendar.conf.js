@@ -10,24 +10,24 @@ module.exports = {
 	excludeUsers: [ 'arshaw' ], // did all the importing
 
 	logo: {
-		url: 'https://fullcalendar.io/assets/images/logo.svg',
-		width: 29,
-		height: 24
+		url: 'https://fullcalendar.io/assets-more/images/logo-64x64.png',
+		width: 32,
+		height: 32
 	},
 
 	tabs: [
 		{
 			title: 'Features',
 			splitpane: [
-				{ label: 'Accepted', width: '60%' },
-				{ label: 'Discussing', width: '40%' }
+				{ label: 'Accepted', width: '50%' },
+				{ label: 'Discussing', width: '50%' }
 			]
 		},
 		{
 			title: 'Bugs',
 			splitpane: [
-				{ label: 'Confirmed', width: '60%' },
-				{ label: 'Reproducing', width: '40%' }
+				{ label: 'Confirmed', width: '50%' },
+				{ label: 'Reproducing', width: '50%' }
 			]
 		},
 	],
@@ -59,14 +59,6 @@ module.exports = {
 							);
 					}
 				},
-				'titleAndLabels'
-			]
-		},
-		{
-			user: 'fullcalendar',
-			name: 'fullcalendar-scheduler',
-			columns: [
-				'score',
 				'titleAndLabels'
 			]
 		}
