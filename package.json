@@ -34,7 +34,7 @@
     "handlebars": "^4.0.5",
     "hash-router": "^0.4.0",
     "hbsfy": "^2.7.0",
-    "jquery": "^2.2.3",
+    "jquery": "^3.5.0",
     "js-cookie": "^2.1.1",
     "lodash": "^4.12.0",
     "mkdirp": "^0.5.1",
